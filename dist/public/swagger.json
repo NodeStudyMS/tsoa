@@ -1,0 +1,243 @@
+{
+    "components": {
+        "examples": {},
+        "headers": {},
+        "parameters": {},
+        "requestBodies": {},
+        "responses": {},
+        "schemas": {
+            "Board": {
+                "properties": {
+                    "BID": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "BOARDTITLE": {
+                        "type": "string"
+                    },
+                    "BOARDCONTENT": {
+                        "type": "string"
+                    },
+                    "BOARDREGDATE": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "BOARDTITLE",
+                    "BOARDCONTENT",
+                    "MEMBERNAME"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "BoardCreationParams": {
+                "properties": {
+                    "BOARDTITLE": {
+                        "type": "string"
+                    },
+                    "BOARDCONTENT": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "BOARDTITLE",
+                    "BOARDCONTENT",
+                    "MEMBERNAME"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "BoardUpdateParams": {
+                "properties": {
+                    "BOARDTITLE": {
+                        "type": "string"
+                    },
+                    "BOARDCONTENT": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {}
+    },
+    "info": {
+        "title": "TSOA",
+        "version": "1.0.0",
+        "description": "Build swagger-compliant REST APIs using TypeScript and Node",
+        "license": {
+            "name": "MIT"
+        },
+        "contact": {
+            "name": "unknown"
+        }
+    },
+    "openapi": "3.0.0",
+    "paths": {
+        "/boards": {
+            "get": {
+                "operationId": "GetBoards",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Board"
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": []
+            },
+            "post": {
+                "operationId": "CreateBoard",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Board"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BoardCreationParams"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/boards/{boardId}": {
+            "get": {
+                "operationId": "GetBoard",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Board"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "UpdateBoard",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Board"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BoardUpdateParams"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "DeleteBoard",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "/"
+        }
+    ]
+}
