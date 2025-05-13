@@ -4,16 +4,20 @@
   "description": "Board CRUD API with tsoa",
   "main": "backend/src/app.ts",
   "scripts": {
-  "build": "tsoa spec-and-routes --configuration ./backend/tsoa.json && tsc",
-  "start": "node dist/src/app.js",
-  "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
-  "test": "jest"
+    "build": "tsoa spec-and-routes --configuration ./backend/tsoa.json && tsc",
+    "start": "node dist/src/app.js",
+    "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "express": "^4.18.2",
+    "express": "^4.21.2",
     "mariadb": "^3.4.2",
+    "morgan": "^1.10.0",
+    "nunjucks": "^3.2.4",
+    "sequelize": "^6.37.7",
+    "sequelize-cli": "^6.6.3",
     "swagger-ui-express": "^5.0.0",
     "tsoa": "^5.1.1",
     "uuid": "^9.0.1"
@@ -26,7 +30,7 @@
     "@types/swagger-ui-express": "^4.1.6",
     "@types/uuid": "^9.0.7",
     "concurrently": "^8.2.2",
-    "nodemon": "^3.0.2",
+    "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
