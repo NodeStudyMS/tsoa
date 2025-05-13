@@ -1,0 +1,513 @@
+{
+    "components": {
+        "examples": {},
+        "headers": {},
+        "parameters": {},
+        "requestBodies": {},
+        "responses": {},
+        "schemas": {
+            "Board": {
+                "properties": {
+                    "BID": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "BOARDTITLE": {
+                        "type": "string"
+                    },
+                    "BOARDCONTENT": {
+                        "type": "string"
+                    },
+                    "BOARDREGDATE": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "BOARDTITLE",
+                    "BOARDCONTENT",
+                    "MEMBERNAME"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "BoardCreationParams": {
+                "properties": {
+                    "BOARDTITLE": {
+                        "type": "string"
+                    },
+                    "BOARDCONTENT": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "BOARDTITLE",
+                    "BOARDCONTENT",
+                    "MEMBERNAME"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "BoardUpdateParams": {
+                "properties": {
+                    "BOARDTITLE": {
+                        "type": "string"
+                    },
+                    "BOARDCONTENT": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            },
+            "Member": {
+                "properties": {
+                    "MID": {
+                        "type": "string"
+                    },
+                    "MPW": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "MID",
+                    "MPW",
+                    "MEMBERNAME"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "MemberCreationParams": {
+                "properties": {
+                    "MID": {
+                        "type": "string"
+                    },
+                    "MPW": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "MID",
+                    "MPW"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "Pick_Member.Exclude_keyofMember.MPW__": {
+                "properties": {
+                    "MID": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "required": [
+                    "MID",
+                    "MEMBERNAME"
+                ],
+                "type": "object",
+                "description": "From T, pick a set of properties whose keys are in the union K"
+            },
+            "Omit_Member.MPW_": {
+                "$ref": "#/components/schemas/Pick_Member.Exclude_keyofMember.MPW__",
+                "description": "Construct a type with the properties of T except for those in type K."
+            },
+            "MemberLoginParams": {
+                "properties": {
+                    "MID": {
+                        "type": "string"
+                    },
+                    "MPW": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "MID",
+                    "MPW"
+                ],
+                "type": "object",
+                "additionalProperties": false
+            },
+            "MemberUpdateParams": {
+                "properties": {
+                    "MPW": {
+                        "type": "string"
+                    },
+                    "MEMBERNAME": {
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {}
+    },
+    "info": {
+        "title": "TSOA",
+        "version": "1.0.0",
+        "description": "Build swagger-compliant REST APIs using TypeScript and Node",
+        "license": {
+            "name": "MIT"
+        },
+        "contact": {
+            "name": "unknown"
+        }
+    },
+    "openapi": "3.0.0",
+    "paths": {
+        "/boards": {
+            "get": {
+                "operationId": "GetBoards",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Board"
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": []
+            },
+            "post": {
+                "operationId": "CreateBoard",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Board"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BoardCreationParams"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/boards/{boardId}": {
+            "get": {
+                "operationId": "GetBoard",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Board"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "UpdateBoard",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Board"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BoardUpdateParams"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "DeleteBoard",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    }
+                },
+                "tags": [
+                    "Board"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "schema": {
+                            "format": "double",
+                            "type": "number"
+                        }
+                    }
+                ]
+            }
+        },
+        "/members": {
+            "get": {
+                "operationId": "GetMembers",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/Member"
+                                    },
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Member"
+                ],
+                "security": [],
+                "parameters": []
+            }
+        },
+        "/members/{mid}": {
+            "get": {
+                "operationId": "GetMember",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Member"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Member"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "mid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "put": {
+                "operationId": "UpdateMember",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Member"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Member"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "mid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MemberUpdateParams"
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "DeleteMember",
+                "responses": {
+                    "204": {
+                        "description": "No content"
+                    }
+                },
+                "tags": [
+                    "Member"
+                ],
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "mid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            }
+        },
+        "/members/register": {
+            "post": {
+                "operationId": "RegisterMember",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Member"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Member"
+                ],
+                "security": [],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MemberCreationParams"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/members/login": {
+            "post": {
+                "operationId": "LoginMember",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Omit_Member.MPW_"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Member"
+                ],
+                "security": [],
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MemberLoginParams"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "/"
+        }
+    ]
+}

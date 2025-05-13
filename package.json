@@ -4,12 +4,13 @@
   "description": "Board CRUD API with tsoa",
   "main": "backend/src/app.ts",
   "scripts": {
-    "build": "tsoa spec-and-routes --configuration ./backend/tsoa.json && tsc",
-    "start": "node dist/src/app.js",
-    "dev": "concurrently \"nodemon\" \"nodemon -x tsoa spec-and-routes\"",
-    "test": "jest"
-  },
+  "build": "cd backend && tsoa spec-and-routes && cd .. && tsc",
+  "start": "node dist/backend/src/app.js",
+  "dev": "concurrently \"nodemon\" \"cd backend && nodemon -x tsoa spec-and-routes\"",
+  "test": "jest"
+},
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.21.2",
@@ -23,6 +24,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/body-parser": "^1.19.5",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
