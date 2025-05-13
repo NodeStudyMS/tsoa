@@ -10,13 +10,16 @@ export interface Board {
   MEMBERNAME: string;
 }
 
+// 새 게시글 생성할 때 필요한 파라미터 정의
 export interface BoardCreationParams {
   BOARDTITLE: string;
   BOARDCONTENT: string;
   MEMBERNAME: string;
 }
 
+// 업데이트 할 때 필요한 파라미터 정의
 export interface BoardUpdateParams {
+  // 셋 중 하나만 업데이트 할 수 있으니 세 개 다 선택적으로 할당
   BOARDTITLE?: string;
   BOARDCONTENT?: string;
   MEMBERNAME?: string;
