@@ -13,11 +13,11 @@ exports.initDatabase = exports.testConnection = void 0;
 const sequelize_1 = require("sequelize");
 // MariaDB 연결 설정
 const sequelize = new sequelize_1.Sequelize({
-    dialect: 'mariadb',
+    dialect: 'mariadb', // mariadb
     host: 'localhost',
     username: 'root',
-    password: '1234',
-    database: 'asgin',
+    password: '1234', // pw
+    database: 'asgin', // db
     pool: {
         max: 10,
         min: 0,
@@ -25,12 +25,12 @@ const sequelize = new sequelize_1.Sequelize({
         idle: 10000
     },
     dialectOptions: {
-        timezone: 'Etc/GMT+9',
-        charset: 'utf8mb4'
+        timezone: 'Etc/GMT+9', // 시간 서울기준
+        charset: 'utf8mb4' // utf-8 설정정
     },
     logging: console.log
 });
-// 데이터베이스 연결 테스트 함수
+// 데이터베이스 연결 테스트 로그그
 const testConnection = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield sequelize.authenticate();
@@ -43,6 +43,7 @@ const testConnection = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.testConnection = testConnection;
 // 데이터베이스 초기화 함수
+// 초기화 안 하면 오류 날 수 있음.
 const initDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, exports.testConnection)();

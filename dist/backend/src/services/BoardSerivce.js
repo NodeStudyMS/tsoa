@@ -1,5 +1,5 @@
 "use strict";
-// src/services/BoardSerivce.ts
+// src/services/BoardService.ts
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -9,79 +9,103 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BoardService = void 0;
-// db 연결 메서드 import
-const db_1 = __importDefault(require("../db/db"));
+const Board_1 = require("../models/Board");
 class BoardService {
-    // 게시글 ID 기준 내림차순 정렬(최신순)
-    // 배열반환
+    // 모든 게시글 조회 (최신순)
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield db_1.default.query('SELECT * FROM board ORDER BY BID DESC');
+            const boards = yield Board_1.BoardModel.findAll({
+                order: [['BID', 'DESC']]
+            });
+            // Sequelize 모델을 Board 인터페이스 형태로 변환
+            return boards.map(board => ({
+                BID: board.BID,
+                BOARDTITLE: board.BOARDTITLE,
+                BOARDCONTENT: board.BOARDCONTENT,
+                BOARDREGDATE: board.BOARDREGDATE.toISOString(),
+                MEMBERNAME: board.MEMBERNAME
+            }));
         });
     }
     // 특정 게시글 조회
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            // ?와 [id] : SQL 인젝션 공격 방지를 위한 파라미터 바인딩
-            const result = yield db_1.default.query('SELECT * FROM board WHERE BID = ?', [id]);
-            // 예외처리
-            if (result.length === 0) {
+            const board = yield Board_1.BoardModel.findByPk(id);
+            if (!board) {
                 throw new Error(`게시글 ID ${id}를 찾을 수 없습니다`);
             }
-            return result[0];
+            return {
+                BID: board.BID,
+                BOARDTITLE: board.BOARDTITLE,
+                BOARDCONTENT: board.BOARDCONTENT,
+                BOARDREGDATE: board.BOARDREGDATE.toISOString(),
+                MEMBERNAME: board.MEMBERNAME
+            };
         });
     }
-    // 게시글 추가
+    // 게시글 생성
     create(boardParams) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield db_1.default.query('INSERT INTO board (BOARDTITLE, BOARDCONTENT, MEMBERNAME) VALUES (?, ?, ?)', [boardParams.BOARDTITLE, boardParams.BOARDCONTENT, boardParams.MEMBERNAME]);
-            // 생성된 게시글 전체 정보를 조회하고 반환
-            return this.getById(result.insertId);
+            const newBoard = yield Board_1.BoardModel.create({
+                BOARDTITLE: boardParams.BOARDTITLE,
+                BOARDCONTENT: boardParams.BOARDCONTENT,
+                MEMBERNAME: boardParams.MEMBERNAME
+            });
+            return {
+                BID: newBoard.BID,
+                BOARDTITLE: newBoard.BOARDTITLE,
+                BOARDCONTENT: newBoard.BOARDCONTENT,
+                BOARDREGDATE: newBoard.BOARDREGDATE.toISOString(),
+                MEMBERNAME: newBoard.MEMBERNAME
+            };
         });
     }
     // 게시글 수정
     update(id, boardParams) {
         return __awaiter(this, void 0, void 0, function* () {
-            // 수정할 필드들의 SQL 구문 모음
-            const updates = [];
-            // 실제 값 모음
-            const values = [];
-            // 변경된 필드만 업데이트 할 수 있도록 처리
+            const board = yield Board_1.BoardModel.findByPk(id);
+            if (!board) {
+                throw new Error(`게시글 ID ${id}를 찾을 수 없습니다`);
+            }
+            const updateData = {};
             if (boardParams.BOARDTITLE !== undefined) {
-                updates.push('BOARDTITLE = ?');
-                values.push(boardParams.BOARDTITLE);
+                updateData.BOARDTITLE = boardParams.BOARDTITLE;
             }
             if (boardParams.BOARDCONTENT !== undefined) {
-                updates.push('BOARDCONTENT = ?');
-                values.push(boardParams.BOARDCONTENT);
+                updateData.BOARDCONTENT = boardParams.BOARDCONTENT;
             }
             if (boardParams.MEMBERNAME !== undefined) {
-                updates.push('MEMBERNAME = ?');
-                values.push(boardParams.MEMBERNAME);
+                updateData.MEMBERNAME = boardParams.MEMBERNAME;
             }
-            // 수정할 내용 없으면 조회하고 반환
-            if (updates.length === 0) {
-                return this.getById(id);
+            // 수정할 데이터가 없으면 현재 정보 반환
+            if (Object.keys(updateData).length === 0) {
+                return {
+                    BID: board.BID,
+                    BOARDTITLE: board.BOARDTITLE,
+                    BOARDCONTENT: board.BOARDCONTENT,
+                    BOARDREGDATE: board.BOARDREGDATE.toISOString(),
+                    MEMBERNAME: board.MEMBERNAME
+                };
             }
-            // id를 values 배열에 추가
-            values.push(id);
-            yield db_1.default.query(`UPDATE board SET ${updates.join(', ')} WHERE BID = ?`, values);
-            // 수정 후 게시글 정보를 다시 조회하고 반환
-            return this.getById(id);
+            yield board.update(updateData);
+            return {
+                BID: board.BID,
+                BOARDTITLE: board.BOARDTITLE,
+                BOARDCONTENT: board.BOARDCONTENT,
+                BOARDREGDATE: board.BOARDREGDATE.toISOString(),
+                MEMBERNAME: board.MEMBERNAME
+            };
         });
     }
     // 게시글 삭제
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const result = yield db_1.default.query('DELETE FROM board WHERE BID = ?', [id]);
-            // 삭제된 행의 수 확인
-            if (result.affectedRows === 0) {
-                // 예외처리
+            const result = yield Board_1.BoardModel.destroy({
+                where: { BID: id }
+            });
+            if (result === 0) {
                 throw new Error(`게시글 ID ${id}를 찾을 수 없습니다`);
             }
         });

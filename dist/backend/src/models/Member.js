@@ -10,7 +10,7 @@ const sequelize_2 = __importDefault(require("../db/sequelize"));
 class Member extends sequelize_1.Model {
 }
 exports.Member = Member;
-// 모델 초기화 (바로 실행)
+// 모델 초기화
 Member.init({
     MID: {
         type: sequelize_1.DataTypes.STRING,
