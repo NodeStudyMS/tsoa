@@ -1,31 +1,31 @@
 // src/services/MemberService.ts
 
-import db from '../db/db';
 import { Member, MemberCreationParams, MemberLoginParams, MemberUpdateParams } from '../models/Member';
+import { models } from '../db/sequelize';
 
 export class MemberService {
   // 모든 회원 조회
   public async getAll(): Promise<Member[]> {
-    return await db.query('SELECT MID, MEMBERNAME FROM member');
+    return await Member.findAll({
+      attributes: ['MID', 'MEMBERNAME'] // 비밀번호 제외
+    });
   }
 
   // 특정 회원 조회
   public async getById(id: string): Promise<Member> {
-    const result = await db.query(
-      'SELECT MID, MEMBERNAME FROM member WHERE MID = ?', 
-      [id]
-    );
+    const member = await Member.findByPk(id, {
+      attributes: ['MID', 'MEMBERNAME'] // 비밀번호 제외
+    });
     
-    if (result.length === 0) {
+    if (!member) {
       throw new Error(`회원 ID ${id}를 찾을 수 없습니다`);
     }
-    return result[0];
+    return member;
   }
 
   // ID로 회원 조회 (내부용)
   private async getByMID(mid: string): Promise<Member | null> {
-    const result = await db.query('SELECT * FROM member WHERE MID = ?', [mid]);
-    return result.length > 0 ? result[0] : null;
+    return await Member.findByPk(mid);
   }
 
   // 회원가입
@@ -37,17 +37,18 @@ export class MemberService {
     }
 
     // 회원 정보 저장 (해싱 없이 원본 비밀번호 저장)
-    await db.query(
-      'INSERT INTO member (MID, MPW, MEMBERNAME) VALUES (?, ?, ?)',
-      [memberParams.MID, memberParams.MPW, memberParams.MEMBERNAME]
-    );
+    await Member.create({
+      MID: memberParams.MID,
+      MPW: memberParams.MPW,
+      MEMBERNAME: memberParams.MEMBERNAME || undefined
+    });
 
     // 생성된 회원 정보 조회
     return this.getById(memberParams.MID);
   }
 
   // 로그인
-  public async login(loginParams: MemberLoginParams): Promise<Omit<Member, 'MPW'>> {
+  public async login(loginParams: MemberLoginParams): Promise<Member> {
     // ID로 회원 조회
     const member = await this.getByMID(loginParams.MID);
     if (!member) {
@@ -59,45 +60,44 @@ export class MemberService {
       throw new Error('ID 또는 비밀번호가 올바르지 않습니다');
     }
 
-    // 비밀번호 제외한 회원 정보 반환
-    const { MPW, ...memberWithoutPassword } = member;
-    return memberWithoutPassword;
+    // 비밀번호 필드를 제외한 회원 데이터 반환
+    return await Member.findByPk(loginParams.MID, {
+      attributes: ['MID', 'MEMBERNAME'] // MPW 제외
+    }) as Member;
   }
 
   // 회원정보 수정
   public async update(id: string, memberParams: MemberUpdateParams): Promise<Member> {
-    const updates: string[] = [];
-    const values: any[] = [];
+    const member = await this.getByMID(id);
+    if (!member) {
+      throw new Error(`회원 ID ${id}를 찾을 수 없습니다`);
+    }
 
+    const updateData: MemberUpdateParams = {};
+    
     if (memberParams.MPW !== undefined) {
-      // 비밀번호  저장 
-      updates.push('MPW = ?');
-      values.push(memberParams.MPW);
+      updateData.MPW = memberParams.MPW;
     }
 
     if (memberParams.MEMBERNAME !== undefined) {
-      updates.push('MEMBERNAME = ?');
-      values.push(memberParams.MEMBERNAME);
+      updateData.MEMBERNAME = memberParams.MEMBERNAME;
     }
 
-    if (updates.length === 0) {
+    if (Object.keys(updateData).length === 0) {
       return this.getById(id);
     }
 
-    values.push(id);
-
-    await db.query(
-      `UPDATE member SET ${updates.join(', ')} WHERE MID = ?`,
-      values
-    );
-
+    await member.update(updateData);
     return this.getById(id);
   }
 
   // 회원 삭제
   public async delete(id: string): Promise<void> {
-    const result = await db.query('DELETE FROM member WHERE MID = ?', [id]);
-    if (result.affectedRows === 0) {
+    const result = await Member.destroy({
+      where: { MID: id }
+    });
+    
+    if (result === 0) {
       throw new Error(`회원 ID ${id}를 찾을 수 없습니다`);
     }
   }
