@@ -4,7 +4,7 @@ import { MemberService } from '../services/MemberService';
 
 // API 경로를 /members로 지정
 @Route('members')
-// Swagger 문서에서 'Member' 태그로 이 컨트롤러의 API들을 묶기기
+// Swagger 문서에서 'Member' 태그로 이 컨트롤러의 API들을 묶기
 @Tags('Member')
 export class MemberController extends Controller {
     // MemberService 인스턴스 생성
