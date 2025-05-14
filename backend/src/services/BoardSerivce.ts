@@ -1,85 +1,109 @@
-// src/services/BoardSerivce.ts
+// src/services/BoardService.ts
 
-// db 연결 메서드 import
-import db from '../db/db';
-// 게시판 관련 인터페이스 import
-import { Board, BoardCreationParams, BoardUpdateParams } from '../models/Board';
+import { Board, BoardCreationParams, BoardUpdateParams, BoardModel } from '../models/Board';
 
 export class BoardService {
-  // 게시글 ID 기준 내림차순 정렬(최신순)
-  // 배열반환
+  // 모든 게시글 조회 (최신순)
   public async getAll(): Promise<Board[]> {
-    return await db.query('SELECT * FROM board ORDER BY BID DESC');
+    const boards = await BoardModel.findAll({
+      order: [['BID', 'DESC']]
+    });
+    
+    // Sequelize 모델을 Board 인터페이스 형태로 변환
+    return boards.map(board => ({
+      BID: board.BID,
+      BOARDTITLE: board.BOARDTITLE,
+      BOARDCONTENT: board.BOARDCONTENT,
+      BOARDREGDATE: board.BOARDREGDATE.toISOString(),
+      MEMBERNAME: board.MEMBERNAME
+    }));
   }
 
   // 특정 게시글 조회
   public async getById(id: number): Promise<Board> {
-    // ?와 [id] : SQL 인젝션 공격 방지를 위한 파라미터 바인딩
-    const result = await db.query('SELECT * FROM board WHERE BID = ?', [id]);
-    // 예외처리
-    if (result.length === 0) {
+    const board = await BoardModel.findByPk(id);
+    
+    if (!board) {
       throw new Error(`게시글 ID ${id}를 찾을 수 없습니다`);
     }
-    return result[0];
+    
+    return {
+      BID: board.BID,
+      BOARDTITLE: board.BOARDTITLE,
+      BOARDCONTENT: board.BOARDCONTENT,
+      BOARDREGDATE: board.BOARDREGDATE.toISOString(),
+      MEMBERNAME: board.MEMBERNAME
+    };
   }
 
-  // 게시글 추가
+  // 게시글 생성
   public async create(boardParams: BoardCreationParams): Promise<Board> {
-    const result = await db.query(
-      'INSERT INTO board (BOARDTITLE, BOARDCONTENT, MEMBERNAME) VALUES (?, ?, ?)',
-      [boardParams.BOARDTITLE, boardParams.BOARDCONTENT, boardParams.MEMBERNAME]
-    );
+    const newBoard = await BoardModel.create({
+      BOARDTITLE: boardParams.BOARDTITLE,
+      BOARDCONTENT: boardParams.BOARDCONTENT,
+      MEMBERNAME: boardParams.MEMBERNAME
+    });
     
-    // 생성된 게시글 전체 정보를 조회하고 반환
-    return this.getById(result.insertId);
+    return {
+      BID: newBoard.BID,
+      BOARDTITLE: newBoard.BOARDTITLE,
+      BOARDCONTENT: newBoard.BOARDCONTENT,
+      BOARDREGDATE: newBoard.BOARDREGDATE.toISOString(),
+      MEMBERNAME: newBoard.MEMBERNAME
+    };
   }
 
   // 게시글 수정
   public async update(id: number, boardParams: BoardUpdateParams): Promise<Board> {
-    // 수정할 필드들의 SQL 구문 모음
-    const updates: string[] = [];
-    // 실제 값 모음
-    const values: any[] = [];
-
-    // 변경된 필드만 업데이트 할 수 있도록 처리
+    const board = await BoardModel.findByPk(id);
+    
+    if (!board) {
+      throw new Error(`게시글 ID ${id}를 찾을 수 없습니다`);
+    }
+    
+    const updateData: BoardUpdateParams = {};
+    
     if (boardParams.BOARDTITLE !== undefined) {
-      updates.push('BOARDTITLE = ?');
-      values.push(boardParams.BOARDTITLE);
+      updateData.BOARDTITLE = boardParams.BOARDTITLE;
     }
-
+    
     if (boardParams.BOARDCONTENT !== undefined) {
-      updates.push('BOARDCONTENT = ?');
-      values.push(boardParams.BOARDCONTENT);
+      updateData.BOARDCONTENT = boardParams.BOARDCONTENT;
     }
-
+    
     if (boardParams.MEMBERNAME !== undefined) {
-      updates.push('MEMBERNAME = ?');
-      values.push(boardParams.MEMBERNAME);
+      updateData.MEMBERNAME = boardParams.MEMBERNAME;
     }
-
-    // 수정할 내용 없으면 조회하고 반환
-    if (updates.length === 0) {
-      return this.getById(id);
+    
+    // 수정할 데이터가 없으면 현재 정보 반환
+    if (Object.keys(updateData).length === 0) {
+      return {
+        BID: board.BID,
+        BOARDTITLE: board.BOARDTITLE,
+        BOARDCONTENT: board.BOARDCONTENT,
+        BOARDREGDATE: board.BOARDREGDATE.toISOString(),
+        MEMBERNAME: board.MEMBERNAME
+      };
     }
-
-    // id를 values 배열에 추가
-    values.push(id);
-
-    await db.query(
-      `UPDATE board SET ${updates.join(', ')} WHERE BID = ?`,
-      values
-    );
-
-    // 수정 후 게시글 정보를 다시 조회하고 반환
-    return this.getById(id);
+    
+    await board.update(updateData);
+    
+    return {
+      BID: board.BID,
+      BOARDTITLE: board.BOARDTITLE,
+      BOARDCONTENT: board.BOARDCONTENT,
+      BOARDREGDATE: board.BOARDREGDATE.toISOString(),
+      MEMBERNAME: board.MEMBERNAME
+    };
   }
 
   // 게시글 삭제
   public async delete(id: number): Promise<void> {
-    const result = await db.query('DELETE FROM board WHERE BID = ?', [id]);
-    // 삭제된 행의 수 확인
-    if (result.affectedRows === 0) {
-      // 예외처리
+    const result = await BoardModel.destroy({
+      where: { BID: id }
+    });
+    
+    if (result === 0) {
       throw new Error(`게시글 ID ${id}를 찾을 수 없습니다`);
     }
   }
