@@ -1,5 +1,12 @@
-// src/models/Member.ts
 import { Model, DataTypes, Sequelize } from 'sequelize';
+import sequelize from '../db/sequelize';
+
+// 인터페이스 정의
+export interface IMember {
+  MID: string;
+  MPW?: string;
+  MEMBERNAME: string | null;
+}
 
 export interface MemberAttributes {
   MID: string;
@@ -10,7 +17,7 @@ export interface MemberAttributes {
 export interface MemberCreationParams {
   MID: string;
   MPW: string;
-  MEMBERNAME?: string;
+  MEMBERNAME?: string | null;
 }
 
 export interface MemberLoginParams {
@@ -23,38 +30,33 @@ export interface MemberUpdateParams {
   MEMBERNAME?: string;
 }
 
-// Sequelize
+// Sequelize 모델 정의 및 초기화를 한 번에 수행
 export class Member extends Model<MemberAttributes, MemberCreationParams> implements MemberAttributes {
   public MID!: string;
   public MPW!: string;
   public MEMBERNAME!: string | null;
   
-  // timestamp field
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
-
-  // 모델 초기화 메서드
-  static initModel(sequelize: Sequelize): typeof Member {
-    Member.init({
-      MID: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-        allowNull: false
-      },
-      MPW: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      MEMBERNAME: {
-        type: DataTypes.STRING,
-        allowNull: true
-      }
-    }, {
-      sequelize,
-      tableName: 'member',
-      timestamps: true // createdAt, updatedAt 자동 생성
-    });
-    
-    return Member;
-  }
 }
+
+// 모델 초기화
+Member.init({
+  MID: {
+    type: DataTypes.STRING,
+    primaryKey: true,
+    allowNull: false
+  },
+  MPW: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  MEMBERNAME: {
+    type: DataTypes.STRING,
+    allowNull: true
+  }
+}, {
+  sequelize,
+  tableName: 'member',
+  timestamps: true
+});
