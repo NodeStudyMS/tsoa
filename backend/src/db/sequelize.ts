@@ -1,32 +1,26 @@
-// src/db/sequelize.ts
 import { Sequelize } from 'sequelize';
-import { Member } from '../models/Member';
 
-// MariaDB 연결 설정을 Sequelize로 변환
+// MariaDB 연결 설정
 const sequelize = new Sequelize({
-  dialect: 'mariadb',
-  host: 'localhost',
+  dialect: 'mariadb', // mariadb
+  host: 'localhost', 
   username: 'root',
-  password: '1234',
-  database: 'asgin',
+  password: '1234', // pw
+  database: 'asgin', // db
   pool: {
-    max: 10,        // connectionLimit과 동일
+    max: 10,
     min: 0,
-    acquire: 30000, // 연결 획득 제한시간 (ms)
-    idle: 10000     // 유휴 상태 제한시간 (ms)
+    acquire: 30000,
+    idle: 10000
   },
-  // MariaDB 특정 옵션
   dialectOptions: {
-    timezone: 'Etc/GMT+9', // 한국 시간대 설정
-    charset: 'utf8mb4'
+    timezone: 'Etc/GMT+9', // 시간 서울기준
+    charset: 'utf8mb4' // utf-8 설정정
   },
   logging: console.log 
 });
 
-// 모델 초기화
-Member.initModel(sequelize);
-
-// 데이터베이스 연결 테스트 함수
+// 데이터베이스 연결 테스트 로그그
 export const testConnection = async (): Promise<void> => {
   try {
     await sequelize.authenticate();
@@ -37,9 +31,19 @@ export const testConnection = async (): Promise<void> => {
   }
 };
 
-// 모델들 내보내기 (추후 다른 모델 추가 시 확장 가능)
-export const models = {
-  Member
+// 데이터베이스 초기화 함수
+// 초기화 안 하면 오류 날 수 있음.
+export const initDatabase = async (): Promise<void> => {
+  try {
+    await testConnection();
+    
+    // 모델 동기화
+    await sequelize.sync();
+    console.log('모델 동기화 완료!');
+  } catch (error) {
+    console.error('데이터베이스 초기화 실패:', error);
+    throw error;
+  }
 };
 
 export default sequelize;
