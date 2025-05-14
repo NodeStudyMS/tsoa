@@ -6,18 +6,21 @@ export interface IMember {
   MID: string;
   MPW?: string;
   MEMBERNAME: string | null;
+  MROLE: string;
 }
 
 export interface MemberAttributes {
   MID: string;
   MPW: string;
   MEMBERNAME: string | null;
+  MROLE: string;
 }
 
 export interface MemberCreationParams {
   MID: string;
   MPW: string;
   MEMBERNAME?: string | null;
+  MROLE?: string;
 }
 
 export interface MemberLoginParams {
@@ -28,6 +31,7 @@ export interface MemberLoginParams {
 export interface MemberUpdateParams {
   MPW?: string;
   MEMBERNAME?: string;
+  MROLE?: string;
 }
 
 // Sequelize 모델 정의 및 초기화를 한 번에 수행
@@ -35,6 +39,7 @@ export class Member extends Model<MemberAttributes, MemberCreationParams> implem
   public MID!: string;
   public MPW!: string;
   public MEMBERNAME!: string | null;
+  public MROLE!: string;
   
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -43,17 +48,22 @@ export class Member extends Model<MemberAttributes, MemberCreationParams> implem
 // 모델 초기화
 Member.init({
   MID: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     primaryKey: true,
     allowNull: false
   },
   MPW: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     allowNull: false
   },
   MEMBERNAME: {
-    type: DataTypes.STRING,
+    type: DataTypes.STRING(30),
     allowNull: true
+  },
+  MROLE: {
+    type: DataTypes.STRING(30),
+    allowNull: true,
+    defaultValue: 'user'
   }
 }, {
   sequelize,
