@@ -5,11 +5,19 @@
   "spec": {
     "outputDirectory": "./public",
     "specVersion": 3,
-    "basePath": "/"
+    "basePath": "/",
+    "securityDefinitions": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   },
   "routes": {
     "routesDir": "./src/routes",
-    "middleware": "express"
+    "middleware": "express",
+    "authenticationModule": "./src/authentication"
   },
   "compilerOptions": {
     "baseUrl": ".",
