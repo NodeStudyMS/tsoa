@@ -67,9 +67,112 @@
 				},
 				"type": "object",
 				"additionalProperties": false
+			},
+			"IMember": {
+				"properties": {
+					"MID": {
+						"type": "string"
+					},
+					"MPW": {
+						"type": "string"
+					},
+					"MEMBERNAME": {
+						"type": "string",
+						"nullable": true
+					},
+					"MROLE": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"MID",
+					"MEMBERNAME",
+					"MROLE"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Error": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					},
+					"stack": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MemberCreationParams": {
+				"properties": {
+					"MID": {
+						"type": "string"
+					},
+					"MPW": {
+						"type": "string"
+					},
+					"MEMBERNAME": {
+						"type": "string",
+						"nullable": true
+					},
+					"MROLE": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"MID",
+					"MPW"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MemberLoginParams": {
+				"properties": {
+					"MID": {
+						"type": "string"
+					},
+					"MPW": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"MID",
+					"MPW"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"MemberUpdateParams": {
+				"properties": {
+					"MPW": {
+						"type": "string"
+					},
+					"MEMBERNAME": {
+						"type": "string"
+					},
+					"MROLE": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"jwt": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
 	},
 	"info": {
 		"title": "TSOA",
@@ -232,6 +335,269 @@
 						}
 					}
 				]
+			}
+		},
+		"/members": {
+			"get": {
+				"operationId": "GetMembers",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/IMember"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Member"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
+			}
+		},
+		"/members/{mid}": {
+			"get": {
+				"operationId": "GetMember",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IMember"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Member"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "mid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateMember",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IMember"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Member"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "mid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MemberUpdateParams"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteMember",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"Member"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "mid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
+		"/members/register": {
+			"post": {
+				"operationId": "RegisterMember",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								},
+								"examples": {
+									"Example 1": {
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+									}
+								}
+							}
+						}
+					},
+					"201": {
+						"description": "회원가입 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "이미 존재하는 사용자",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Member"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MemberCreationParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/members/login": {
+			"post": {
+				"operationId": "LoginMember",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "string"
+								},
+								"examples": {
+									"Example 1": {
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "인증 실패",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Error"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Member"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/MemberLoginParams"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/members/me/profile": {
+			"get": {
+				"operationId": "GetMyProfile",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IMember"
+								}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Member"
+				],
+				"security": [
+					{
+						"jwt": []
+					}
+				],
+				"parameters": []
 			}
 		}
 	},

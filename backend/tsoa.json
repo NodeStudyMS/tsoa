@@ -1,13 +1,28 @@
 {
-  "entryFile": "backend/src/app.ts",
+  "entryFile": "./src/app.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["**/*Controller.ts"],
+  "controllerPathGlobs": ["./src/**/*Controller.ts"],
   "spec": {
-    "outputDirectory": "../public",
+    "outputDirectory": "./public",
     "specVersion": 3,
-    "basePath": "/"
+    "basePath": "/",
+    "securityDefinitions": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   },
   "routes": {
-    "routesDir": "./routes"
+    "routesDir": "./src/routes",
+    "middleware": "express",
+    "authenticationModule": "./src/authentication"
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["src/*"]
+    }
   }
 }
