@@ -13,17 +13,22 @@ exports.Member = Member;
 // 모델 초기화
 Member.init({
     MID: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.STRING(30),
         primaryKey: true,
         allowNull: false
     },
     MPW: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.STRING(30),
         allowNull: false
     },
     MEMBERNAME: {
-        type: sequelize_1.DataTypes.STRING,
+        type: sequelize_1.DataTypes.STRING(30),
         allowNull: true
+    },
+    MROLE: {
+        type: sequelize_1.DataTypes.STRING(30),
+        allowNull: true,
+        defaultValue: 'user'
     }
 }, {
     sequelize: sequelize_2.default,
