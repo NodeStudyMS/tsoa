@@ -8,6 +8,13 @@
     "basePath": "/"
   },
   "routes": {
-    "routesDir": "./src/routes"
+    "routesDir": "./src/routes",
+    "middleware": "express"
+  },
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "*": ["src/*"]
+    }
   }
 }
