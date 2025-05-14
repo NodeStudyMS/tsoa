@@ -11,7 +11,7 @@ export class MemberController extends Controller {
     private service: MemberService = new MemberService();
 
     // 모든 회원 목록 조회
-    // SELECT MID, MEMBERNAME FROM MEMBER;
+    // SELECT * FROM MEMBER;
     @Get()
     public async getMembers(): Promise<IMember[]> {
         // 모든 회원 정보를 가져옴
@@ -24,7 +24,7 @@ export class MemberController extends Controller {
     }
 
     // 특정 회원 한 명의 정보만 조회
-    // SELECT MID, MEMBERNAME FROM MEMBER WHERE MID = ?
+    // SELECT * FROM MEMBER WHERE MID = ?
     @Get('{mid}')
     public async getMember(@Path() mid: string): Promise<IMember> {
         // Path 데코레이터로 URL에서 회원 ID를 받아옴
