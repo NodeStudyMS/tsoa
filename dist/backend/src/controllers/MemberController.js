@@ -33,31 +33,51 @@ let MemberController = class MemberController extends tsoa_1.Controller {
     // 모든 회원 조회
     getMembers() {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.service.getAll();
+            const members = yield this.service.getAll();
+            return members.map(member => ({
+                MID: member.MID,
+                MEMBERNAME: member.MEMBERNAME
+            }));
         });
     }
     // 특정 회원 조회
     getMember(mid) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.service.getById(mid);
+            const member = yield this.service.getById(mid);
+            return {
+                MID: member.MID,
+                MEMBERNAME: member.MEMBERNAME
+            };
         });
     }
     // 회원가입
     registerMember(requestBody) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.service.register(requestBody);
+            const member = yield this.service.register(requestBody);
+            return {
+                MID: member.MID,
+                MEMBERNAME: member.MEMBERNAME
+            };
         });
     }
     // 로그인
     loginMember(requestBody) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.service.login(requestBody);
+            const member = yield this.service.login(requestBody);
+            return {
+                MID: member.MID,
+                MEMBERNAME: member.MEMBERNAME
+            };
         });
     }
     // 회원정보 수정
     updateMember(mid, requestBody) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.service.update(mid, requestBody);
+            const member = yield this.service.update(mid, requestBody);
+            return {
+                MID: member.MID,
+                MEMBERNAME: member.MEMBERNAME
+            };
         });
     }
     // 회원 삭제

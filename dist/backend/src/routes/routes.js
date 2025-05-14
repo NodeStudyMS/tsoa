@@ -43,11 +43,11 @@ const models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Member": {
+    "IMember": {
         "dataType": "refObject",
         "properties": {
             "MID": { "dataType": "string", "required": true },
-            "MPW": { "dataType": "string", "required": true },
+            "MPW": { "dataType": "string" },
             "MEMBERNAME": { "dataType": "union", "subSchemas": [{ "dataType": "string" }, { "dataType": "enum", "enums": [null] }], "required": true },
         },
         "additionalProperties": false,
@@ -58,19 +58,9 @@ const models = {
         "properties": {
             "MID": { "dataType": "string", "required": true },
             "MPW": { "dataType": "string", "required": true },
-            "MEMBERNAME": { "dataType": "string" },
+            "MEMBERNAME": { "dataType": "union", "subSchemas": [{ "dataType": "string" }, { "dataType": "enum", "enums": [null] }] },
         },
         "additionalProperties": false,
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Pick_Member.Exclude_keyofMember.MPW__": {
-        "dataType": "refAlias",
-        "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "MID": { "dataType": "string", "required": true }, "MEMBERNAME": { "dataType": "union", "subSchemas": [{ "dataType": "string" }, { "dataType": "enum", "enums": [null] }], "required": true } }, "validators": {} },
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Omit_Member.MPW_": {
-        "dataType": "refAlias",
-        "type": { "ref": "Pick_Member.Exclude_keyofMember.MPW__", "validators": {} },
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "MemberLoginParams": {
