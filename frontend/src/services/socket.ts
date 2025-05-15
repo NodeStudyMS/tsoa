@@ -7,7 +7,7 @@ class SocketService {
   private socket: Socket | null = null;
   private readonly url = "http://localhost:3000";
 
-  // 소켓 연결
+  // 소켓 연결 부분
   connect(token: string) {
     if (this.socket) {
       this.socket.disconnect();
@@ -15,6 +15,10 @@ class SocketService {
 
     this.socket = io(this.url, {
       auth: { token },
+      transports: ["polling", "websocket"],
+      forceNew: true,
+      reconnectionAttempts: 5,
+      timeout: 10000,
     });
 
     this.socket.on("connect", () => {
