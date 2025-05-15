@@ -1,11 +1,11 @@
-// src/utils/jwt.ts
+// backend/src/utils/jwt.ts
 
-import jwt from 'jsonwebtoken';
-import { IMember } from '../models/Member';
+import jwt from "jsonwebtoken";
+import { IMember } from "../models/Member";
 
 // JWT 시크릿 키
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key';
-const JWT_EXPIRES_IN = '24h';
+const JWT_SECRET = process.env.JWT_SECRET || "your-secret-key";
+const JWT_EXPIRES_IN = "24h";
 
 export interface TokenPayload {
   MID: string;
@@ -18,9 +18,9 @@ export const generateToken = (user: IMember): string => {
   const payload: TokenPayload = {
     MID: user.MID,
     MEMBERNAME: user.MEMBERNAME,
-    MROLE: user.MROLE
+    MROLE: user.MROLE,
   };
-  
+
   return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
 };
 
@@ -29,6 +29,6 @@ export const verifyToken = (token: string): TokenPayload => {
   try {
     return jwt.verify(token, JWT_SECRET) as TokenPayload;
   } catch (error) {
-    throw new Error('Invalid token');
+    throw new Error("Invalid token");
   }
 };

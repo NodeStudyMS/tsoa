@@ -1,3 +1,5 @@
+// frontend/src/types/index.ts
+
 export interface User {
   MID: string;
   MEMBERNAME: string | null;

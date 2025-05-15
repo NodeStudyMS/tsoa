@@ -1,4 +1,6 @@
-import 'express';
+// backend/src/types/express.d.ts
+
+import "express";
 
 // Express 모듈의 타입 확장 선언
 declare global {
