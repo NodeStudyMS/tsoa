@@ -19,6 +19,7 @@ class SocketService {
       forceNew: true,
       reconnectionAttempts: 5,
       timeout: 10000,
+      withCredentials: true, // 인증 정보 전송 허용
     });
 
     this.socket.on("connect", () => {
@@ -27,6 +28,8 @@ class SocketService {
 
     this.socket.on("connect_error", (error: Error) => {
       console.error("소켓 연결 오류:", error.message);
+      // 디버깅을 위한 추가 정보 출력
+      console.error("연결 오류 상세 정보:", error);
     });
 
     return this.socket;

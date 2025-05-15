@@ -1,5 +1,5 @@
 "use strict";
-// src/models/Board.ts
+// backend/src/models/Board.ts
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -16,7 +16,7 @@ class BoardModel extends sequelize_1.Model {
             BOARDTITLE: this.BOARDTITLE,
             BOARDCONTENT: this.BOARDCONTENT,
             BOARDREGDATE: this.BOARDREGDATE.toISOString(),
-            MEMBERNAME: this.MEMBERNAME
+            MEMBERNAME: this.MEMBERNAME,
         };
     }
 }
@@ -43,10 +43,10 @@ BoardModel.init({
     MEMBERNAME: {
         type: sequelize_1.DataTypes.STRING,
         allowNull: false,
-    }
+    },
 }, {
     sequelize: sequelize_2.default,
-    modelName: 'Board',
-    tableName: 'board',
+    modelName: "Board",
+    tableName: "board",
     timestamps: false,
 });

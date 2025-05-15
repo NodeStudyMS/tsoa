@@ -1,5 +1,5 @@
 "use strict";
-// src/services/MemberService.ts
+// backend/src/services/MemberService.ts
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -17,7 +17,7 @@ class MemberService {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
             return yield Member_1.Member.findAll({
-                attributes: ['MID', 'MEMBERNAME'] // 비밀번호 제외
+                attributes: ["MID", "MEMBERNAME"], // 비밀번호 제외
             });
         });
     }
@@ -25,7 +25,7 @@ class MemberService {
     getById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const member = yield Member_1.Member.findByPk(id, {
-                attributes: ['MID', 'MEMBERNAME'] // 비밀번호 제외
+                attributes: ["MID", "MEMBERNAME"], // 비밀번호 제외
             });
             // 회원 없으면 에러 발생
             if (!member) {
@@ -46,13 +46,13 @@ class MemberService {
             // ID 중복 체크
             const existingMember = yield this.getByMID(memberParams.MID);
             if (existingMember) {
-                throw new Error('이미 사용 중인 ID입니다');
+                throw new Error("이미 사용 중인 ID입니다");
             }
             // 회원 정보 저장
             const newMember = yield Member_1.Member.create({
                 MID: memberParams.MID,
                 MPW: memberParams.MPW,
-                MEMBERNAME: memberParams.MEMBERNAME || null
+                MEMBERNAME: memberParams.MEMBERNAME || null,
             });
             // 생성된 회원 정보 조회 비밀번호 제외하고 반환
             return this.getById(newMember.MID);
@@ -64,11 +64,11 @@ class MemberService {
             // ID로 회원 조회
             const member = yield this.getByMID(loginParams.MID);
             if (!member) {
-                throw new Error('ID 또는 비밀번호가 올바르지 않습니다');
+                throw new Error("ID 또는 비밀번호가 올바르지 않습니다");
             }
             // 비밀번호 직접 비교
             if (loginParams.MPW !== member.MPW) {
-                throw new Error('ID 또는 비밀번호가 올바르지 않습니다');
+                throw new Error("ID 또는 비밀번호가 올바르지 않습니다");
             }
             // 비밀번호 필드 제외한 회원 데이터 반환
             return this.getById(member.MID);
@@ -103,7 +103,7 @@ class MemberService {
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield Member_1.Member.destroy({
-                where: { MID: id }
+                where: { MID: id },
             });
             // 삭제할 회원이 없으면 에러 발생
             if (result === 0) {

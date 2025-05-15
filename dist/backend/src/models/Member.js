@@ -1,4 +1,5 @@
 "use strict";
+// backend/src/models/member.ts
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -15,23 +16,23 @@ Member.init({
     MID: {
         type: sequelize_1.DataTypes.STRING(30),
         primaryKey: true,
-        allowNull: false
+        allowNull: false,
     },
     MPW: {
         type: sequelize_1.DataTypes.STRING(30),
-        allowNull: false
+        allowNull: false,
     },
     MEMBERNAME: {
         type: sequelize_1.DataTypes.STRING(30),
-        allowNull: true
+        allowNull: true,
     },
     MROLE: {
         type: sequelize_1.DataTypes.STRING(30),
         allowNull: true,
-        defaultValue: 'user'
-    }
+        defaultValue: "user",
+    },
 }, {
     sequelize: sequelize_2.default,
-    tableName: 'member',
-    timestamps: true
+    tableName: "member",
+    timestamps: true,
 });

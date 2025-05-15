@@ -2,10 +2,10 @@
   "name": "tsoa",
   "version": "1.0.0",
   "description": "Board CRUD API with tsoa",
-  "main": "backend/src/app.ts",
+  "main": "backend/src/server.ts",
   "scripts": {
     "build": "cd backend && tsoa spec-and-routes && cd .. && tsc",
-    "start": "node dist/backend/src/app.js",
+    "start": "node dist/backend/src/server.js",
     "dev": "concurrently \"nodemon\" \"cd backend && nodemon -x tsoa spec-and-routes\"",
     "test": "jest"
   },

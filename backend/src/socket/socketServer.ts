@@ -20,35 +20,70 @@ const connectedUsers: ConnectedUser[] = [];
 export function setupSocketServer(server: Server) {
   const io = new SocketIOServer(server, {
     cors: {
-      origin: "http://localhost:3001", // 프론트엔드 주소 명시적 지정
+      origin: ["http://localhost:3001", "http://127.0.0.1:3001"], // 프론트엔드 주소 (여러 형태 지원)
       methods: ["GET", "POST"],
       credentials: true, // 인증 정보 전송 허용
+      allowedHeaders: ["Authorization", "Content-Type"],
     },
+    allowEIO3: true, // Socket.IO v3 클라이언트 지원
+    pingTimeout: 60000, // 핑 타임아웃 증가
+    pingInterval: 25000, // 핑 간격 설정
   });
+
+  // 소켓 서버 연결 로깅
+  console.log("소켓 서버 설정 완료");
 
   // 소켓 인증 미들웨어
   io.use(async (socket, next) => {
     try {
+      console.log("소켓 연결 시도:", socket.id);
       const token = socket.handshake.auth.token;
+      console.log("인증 토큰 존재 여부:", !!token);
       if (!token) {
+        console.log("인증 토큰 없음:", socket.id);
         return next(new Error("인증 토큰이 필요합니다"));
       }
 
-      // JWT 토큰 검증
-      const decoded = verifyToken(token);
-      socket.data.user = decoded;
-      next();
+      try {
+        // JWT 토큰 검증
+        const decoded = verifyToken(token);
+        socket.data.user = decoded;
+        console.log("인증 성공:", socket.id, decoded.MID);
+        next();
+      } catch (tokenError) {
+        console.error("토큰 검증 실패:", tokenError);
+        next(new Error("유효하지 않은 토큰입니다"));
+      }
     } catch (error) {
-      next(new Error("인증에 실패했습니다"));
+      console.error("소켓 인증 미들웨어 오류:", error);
+      next(new Error("인증 처리 중 오류가 발생했습니다"));
     }
   });
 
+  // 연결 이벤트 처리
   io.on("connection", async (socket) => {
-    try {
-      const userId = socket.data.user.MID;
-      const member = await memberService.getById(userId);
+    console.log("새 소켓 연결:", socket.id);
 
-      console.log(`사용자 연결: ${member.MEMBERNAME || userId}`);
+    try {
+      // 사용자 정보 가져오기
+      const userId = socket.data.user?.MID;
+      if (!userId) {
+        console.error("사용자 ID를 찾을 수 없음:", socket.id);
+        socket.emit("error", { message: "사용자 정보를 찾을 수 없습니다" });
+        socket.disconnect();
+        return;
+      }
+
+      let member;
+      try {
+        member = await memberService.getById(userId);
+        console.log(`사용자 정보 조회 성공: ${member.MEMBERNAME || userId}`);
+      } catch (memberError) {
+        console.error("사용자 정보 조회 실패:", memberError);
+        socket.emit("error", { message: "사용자 정보를 조회할 수 없습니다" });
+        socket.disconnect();
+        return;
+      }
 
       // 연결된 사용자 목록에 추가
       connectedUsers.push({
@@ -56,9 +91,12 @@ export function setupSocketServer(server: Server) {
         userId: userId,
         username: member.MEMBERNAME || userId,
       });
+      console.log(`현재 연결된 사용자 수: ${connectedUsers.length}`);
 
       // 기본 채팅방 참여
       socket.join("general");
+      console.log(`사용자 ${userId} 기본 채팅방 참여`);
+
       io.to("general").emit("user_joined", {
         userId: userId,
         username: member.MEMBERNAME || userId,
@@ -69,6 +107,10 @@ export function setupSocketServer(server: Server) {
       socket.on(
         "send_message",
         async (message: { content: string; roomId?: string }) => {
+          console.log(
+            `메시지 수신: ${socket.id}, 방: ${message.roomId || "general"}`
+          );
+
           const roomId = message.roomId || "general";
 
           try {
@@ -78,6 +120,7 @@ export function setupSocketServer(server: Server) {
               senderId: userId,
               roomId: roomId,
             });
+            console.log(`메시지 저장 성공: ${savedMessage.id}`);
 
             // 메시지 브로드캐스트
             io.to(roomId).emit("receive_message", {
@@ -97,6 +140,8 @@ export function setupSocketServer(server: Server) {
 
       // 채팅방 참여
       socket.on("join_room", (roomId: string) => {
+        console.log(`사용자 ${userId} 채팅방 참여: ${roomId}`);
+
         socket.join(roomId);
         socket.to(roomId).emit("user_joined", {
           userId: userId,
@@ -107,6 +152,8 @@ export function setupSocketServer(server: Server) {
 
       // 채팅방 나가기
       socket.on("leave_room", (roomId: string) => {
+        console.log(`사용자 ${userId} 채팅방 퇴장: ${roomId}`);
+
         socket.leave(roomId);
         socket.to(roomId).emit("user_left", {
           userId: userId,
@@ -116,8 +163,10 @@ export function setupSocketServer(server: Server) {
       });
 
       // 연결 해제
-      socket.on("disconnect", () => {
-        console.log(`사용자 연결 해제: ${member.MEMBERNAME || userId}`);
+      socket.on("disconnect", (reason) => {
+        console.log(
+          `사용자 연결 해제: ${member.MEMBERNAME || userId}, 이유: ${reason}`
+        );
 
         // 연결된 사용자 목록에서 제거
         const index = connectedUsers.findIndex(
@@ -125,6 +174,9 @@ export function setupSocketServer(server: Server) {
         );
         if (index !== -1) {
           connectedUsers.splice(index, 1);
+          console.log(
+            `사용자 목록에서 제거됨, 남은 사용자 수: ${connectedUsers.length}`
+          );
         }
 
         // 모든 채팅방에 사용자 퇴장 알림
@@ -134,10 +186,21 @@ export function setupSocketServer(server: Server) {
           message: `${member.MEMBERNAME || userId}님이 퇴장하셨습니다`,
         });
       });
+
+      // 에러 처리
+      socket.on("error", (error) => {
+        console.error(`소켓 에러: ${socket.id}`, error);
+      });
     } catch (error) {
       console.error("소켓 연결 처리 중 오류:", error);
+      socket.emit("error", { message: "서버 오류가 발생했습니다" });
       socket.disconnect();
     }
+  });
+
+  // 소켓 서버 에러 이벤트 처리
+  io.engine.on("connection_error", (err) => {
+    console.error("소켓 서버 연결 오류:", err);
   });
 
   return io;

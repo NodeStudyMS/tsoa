@@ -1,5 +1,5 @@
 "use strict";
-// src/services/BoardService.ts
+// backend/src/services/BoardService.ts
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -17,15 +17,15 @@ class BoardService {
     getAll() {
         return __awaiter(this, void 0, void 0, function* () {
             const boards = yield Board_1.BoardModel.findAll({
-                order: [['BID', 'DESC']]
+                order: [["BID", "DESC"]],
             });
             // Sequelize를 Board 인터페이스로 반환
-            return boards.map(board => ({
+            return boards.map((board) => ({
                 BID: board.BID,
                 BOARDTITLE: board.BOARDTITLE,
                 BOARDCONTENT: board.BOARDCONTENT,
                 BOARDREGDATE: board.BOARDREGDATE.toISOString(),
-                MEMBERNAME: board.MEMBERNAME
+                MEMBERNAME: board.MEMBERNAME,
             }));
         });
     }
@@ -43,7 +43,7 @@ class BoardService {
                 BOARDTITLE: board.BOARDTITLE,
                 BOARDCONTENT: board.BOARDCONTENT,
                 BOARDREGDATE: board.BOARDREGDATE.toISOString(),
-                MEMBERNAME: board.MEMBERNAME
+                MEMBERNAME: board.MEMBERNAME,
             };
         });
     }
@@ -54,7 +54,7 @@ class BoardService {
             const newBoard = yield Board_1.BoardModel.create({
                 BOARDTITLE: boardParams.BOARDTITLE,
                 BOARDCONTENT: boardParams.BOARDCONTENT,
-                MEMBERNAME: boardParams.MEMBERNAME
+                MEMBERNAME: boardParams.MEMBERNAME,
             });
             // 생성된 데이터를 Board 인터페이스로 반환
             return {
@@ -62,7 +62,7 @@ class BoardService {
                 BOARDTITLE: newBoard.BOARDTITLE,
                 BOARDCONTENT: newBoard.BOARDCONTENT,
                 BOARDREGDATE: newBoard.BOARDREGDATE.toISOString(),
-                MEMBERNAME: newBoard.MEMBERNAME
+                MEMBERNAME: newBoard.MEMBERNAME,
             };
         });
     }
@@ -94,7 +94,7 @@ class BoardService {
                     BOARDTITLE: board.BOARDTITLE,
                     BOARDCONTENT: board.BOARDCONTENT,
                     BOARDREGDATE: board.BOARDREGDATE.toISOString(),
-                    MEMBERNAME: board.MEMBERNAME
+                    MEMBERNAME: board.MEMBERNAME,
                 };
             }
             // 게시글 정보 업데이트 후 결과 반환
@@ -104,7 +104,7 @@ class BoardService {
                 BOARDTITLE: board.BOARDTITLE,
                 BOARDCONTENT: board.BOARDCONTENT,
                 BOARDREGDATE: board.BOARDREGDATE.toISOString(),
-                MEMBERNAME: board.MEMBERNAME
+                MEMBERNAME: board.MEMBERNAME,
             };
         });
     }
@@ -112,7 +112,7 @@ class BoardService {
     delete(id) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield Board_1.BoardModel.destroy({
-                where: { BID: id }
+                where: { BID: id },
             });
             // 삭제할 게시글이 없을 때 예외처리
             if (result === 0) {

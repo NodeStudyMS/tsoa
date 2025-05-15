@@ -1,5 +1,5 @@
 "use strict";
-// src/controllers/BoardControllers.ts
+// backend/src/controllers/BoardControllers.ts
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -74,7 +74,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardController.prototype, "getBoards", null);
 __decorate([
-    (0, tsoa_1.Get)('{boardId}')
+    (0, tsoa_1.Get)("{boardId}")
     // URL 경로에서 boardID 추출 후 게시글 하나 반환
     ,
     __param(0, (0, tsoa_1.Path)()),
@@ -92,7 +92,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardController.prototype, "createBoard", null);
 __decorate([
-    (0, tsoa_1.Put)('{boardId}'),
+    (0, tsoa_1.Put)("{boardId}"),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
@@ -100,9 +100,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardController.prototype, "updateBoard", null);
 __decorate([
-    (0, tsoa_1.Delete)('{boardId}') // /board/1, /board/2
+    (0, tsoa_1.Delete)("{boardId}") // /board/1, /board/2
     ,
-    (0, tsoa_1.Response)('204', 'No Content') // 삭제 성공 시 204 ㅏㅂㄴ환
+    (0, tsoa_1.Response)("204", "No Content") // 삭제 성공 시 204 ㅏㅂㄴ환
     ,
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
@@ -110,8 +110,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardController.prototype, "deleteBoard", null);
 exports.BoardController = BoardController = __decorate([
-    (0, tsoa_1.Route)('boards')
+    (0, tsoa_1.Route)("boards")
     // Swagger 문서에서 Board 태그로 그룹화
     ,
-    (0, tsoa_1.Tags)('Board')
+    (0, tsoa_1.Tags)("Board")
 ], BoardController);
