@@ -15,7 +15,19 @@ const Login: React.FC = () => {
     setError('');
     
     try {
-      await login(mid, mpw);
+      // 로그인 시 사용자 역할 받아오기
+      const role = await login(mid, mpw);
+      
+      // 역할에 따라 다른 알림 표시
+      if (role === 'ADMIN') {
+        alert('관리자로 로그인하셨습니다.');
+      } else if (role === 'USER') {
+        alert('일반 사용자로 로그인하셨습니다.');
+      } else {
+        // 역할이 명확하지 않은 경우
+        alert(`${role} 권한으로 로그인하셨습니다.`);
+      }
+      
       navigate('/chat');
     } catch (err: any) {
       setError(err.response?.data?.message || '로그인에 실패했습니다');

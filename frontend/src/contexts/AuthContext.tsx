@@ -9,7 +9,7 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   loading: boolean;
-  login: (mid: string, mpw: string) => Promise<void>;
+  login: (mid: string, mpw: string) => Promise<string>; // 반환 타입 변경: 역할 문자열 반환
   register: (mid: string, mpw: string, membername: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
@@ -17,6 +17,21 @@ interface AuthContextType {
 
 // 인증 정보를 저장하고 공유하기 위한 Context 생성
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// JWT 토큰 디코딩 함수 (프론트엔드용)
+function decodeJWT(token: string) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    console.error("토큰 디코딩 실패:", e);
+    return null;
+  }
+}
 
 // 인증 상태를 관리하고 자식 컴포넌트에 제공하는 Provider 컴포넌트
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -33,7 +48,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = localStorage.getItem('token');
-      
       if (storedToken) {
         try {
           // API 요청에 토큰 설정
@@ -59,7 +73,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   // 로그인 함수: 아이디와 비밀번호로 로그인 처리
-  const login = async (mid: string, mpw: string) => {
+  const login = async (mid: string, mpw: string): Promise<string> => {
     setLoading(true);
     try {
       // 로그인 API 호출하여 토큰 받기
@@ -71,6 +85,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const userData = await api.getMyProfile();
       setUser(userData);
       setIsAuthenticated(true);
+      
+      // 토큰에서 역할 정보 추출
+      const decoded = decodeJWT(token);
+      const role = decoded?.MROLE || 'unknown';
+      
+      return role; // 사용자 역할 반환
     } catch (error) {
       console.error('로그인 실패:', error);
       throw error; // 에러를 상위로 전파하여 UI에서 처리할 수 있게 함
