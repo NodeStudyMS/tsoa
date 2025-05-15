@@ -1,0 +1,114 @@
+// src/services/socketService.ts
+import { io } from 'socket.io-client';
+import type { Socket } from 'socket.io-client/build/esm/socket';
+import { ChatMessage, UserJoinedEvent, UserLeftEvent } from '../types';
+
+class SocketService {
+  private socket: Socket | null = null;
+  private readonly url = 'http://localhost:3000';
+
+  // 소켓 연결
+  connect(token: string) {
+    if (this.socket) {
+      this.socket.disconnect();
+    }
+
+    this.socket = io(this.url, {
+      auth: { token }
+    });
+
+    this.socket.on('connect', () => {
+      console.log('소켓 서버에 연결되었습니다');
+    });
+
+    this.socket.on('connect_error', (error: Error) => {
+      console.error('소켓 연결 오류:', error.message);
+    });
+
+    return this.socket;
+  }
+
+  // 소켓 연결 해제
+  disconnect() {
+    if (this.socket) {
+      this.socket.disconnect();
+      this.socket = null;
+    }
+  }
+
+  // 채팅방 참여
+  joinRoom(roomId: string) {
+    if (this.socket) {
+      this.socket.emit('join_room', roomId);
+    }
+  }
+
+  // 채팅방 나가기
+  leaveRoom(roomId: string) {
+    if (this.socket) {
+      this.socket.emit('leave_room', roomId);
+    }
+  }
+
+  // 메시지 전송
+  sendMessage(content: string, roomId: string = 'general') {
+    if (this.socket) {
+      this.socket.emit('send_message', { content, roomId });
+    }
+  }
+
+  // 메시지 수신 이벤트 리스너
+  onReceiveMessage(callback: (message: ChatMessage) => void) {
+    if (this.socket) {
+      this.socket.on('receive_message', callback);
+    }
+    return () => {
+      if (this.socket) {
+        this.socket.off('receive_message', callback);
+      }
+    };
+  }
+
+  // 사용자 입장 이벤트 리스너
+  onUserJoined(callback: (data: UserJoinedEvent) => void) {
+    if (this.socket) {
+      this.socket.on('user_joined', callback);
+    }
+    return () => {
+      if (this.socket) {
+        this.socket.off('user_joined', callback);
+      }
+    };
+  }
+
+  // 사용자 퇴장 이벤트 리스너
+  onUserLeft(callback: (data: UserLeftEvent) => void) {
+    if (this.socket) {
+      this.socket.on('user_left', callback);
+    }
+    return () => {
+      if (this.socket) {
+        this.socket.off('user_left', callback);
+      }
+    };
+  }
+
+  // 에러 이벤트 리스너
+  onError(callback: (error: { message: string }) => void) {
+    if (this.socket) {
+      this.socket.on('error', callback);
+    }
+    return () => {
+      if (this.socket) {
+        this.socket.off('error', callback);
+      }
+    };
+  }
+
+  // 연결 상태 확인
+  isConnected(): boolean {
+    return this.socket?.connected || false;
+  }
+}
+
+export const socketService = new SocketService();
