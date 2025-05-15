@@ -1,10 +1,12 @@
-//src/app.ts
-
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
 import { RegisterRoutes } from './routes/routes';
+import { createServer } from 'http';
+import { setupSocketServer } from './socket/socketServer';
+import { initDatabase } from './db/sequelize';
+import { ChatService } from './services/ChatService';
 
 export const app = express();
 
@@ -35,11 +37,36 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
   });
 });
 
+// HTTP 서버 생성
+const httpServer = createServer(app);
+
+// Socket.io 설정
+const io = setupSocketServer(httpServer);
+
+// 서버 초기화 및 실행
+async function initServer() {
+  try {
+    // 데이터베이스 초기화
+    await initDatabase();
+    
+    // 기본 채팅방 초기화
+    const chatService = new ChatService();
+    await chatService.initializeDefaultRooms();
+    
+    // 서버 실행
+    const PORT = process.env.PORT || 3000;
+    httpServer.listen(PORT, () => {
+      console.log(`서버가 시작되었습니다! http://localhost:${PORT}`);
+      console.log(`Swagger UI: http://localhost:${PORT}/docs`);
+      console.log(`Socket.io 서버가 실행 중입니다`);
+    });
+  } catch (error) {
+    console.error('서버 초기화 실패:', error);
+    process.exit(1);
+  }
+}
+
 // 서버 실행 시 로그 출력
 if (require.main === module) {
-  const PORT = process.env.PORT || 3000;
-  app.listen(PORT, () => {
-    console.log(`서버가 시작되었습니다! http://localhost:${PORT}`);
-    console.log(`Swagger UI: http://localhost:${PORT}/docs`);
-  });
+  initServer();
 }
