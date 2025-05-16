@@ -6,10 +6,19 @@ const path = require("path");
 // 빌드 폴더와 대상 폴더 경로 설정
 const buildDir = path.resolve(__dirname, "../build");
 const targetDir = path.resolve(__dirname, "../../../public");
-
+// 추가: 빌드된 dist 폴더의 public 디렉토리
+const distTargetDir = path.resolve(
+  __dirname,
+  "../../../../dist/backend/public"
+);
 // 대상 폴더가 없으면 생성
 if (!fs.existsSync(targetDir)) {
   fs.mkdirSync(targetDir, { recursive: true });
+}
+
+// dist 대상 폴더가 없으면 생성
+if (!fs.existsSync(distTargetDir)) {
+  fs.mkdirSync(distTargetDir, { recursive: true });
 }
 
 // 파일 복사 함수
@@ -18,7 +27,6 @@ function copyFolderSync(from, to) {
   if (!fs.existsSync(to)) {
     fs.mkdirSync(to, { recursive: true });
   }
-
   // 소스 폴더의 모든 파일과 폴더 읽기
   fs.readdirSync(from).forEach((element) => {
     const stat = fs.statSync(path.join(from, element));
@@ -37,3 +45,8 @@ function copyFolderSync(from, to) {
 console.log("빌드 파일을 backend/public 폴더로 복사 중...");
 copyFolderSync(buildDir, targetDir);
 console.log("복사 완료!");
+
+// 빌드 폴더의 내용을 dist 폴더의 public 디렉토리로도 복사
+console.log("빌드 파일을 dist/backend/public 폴더로 복사 중...");
+copyFolderSync(buildDir, distTargetDir);
+console.log("dist 폴더 복사 완료!");

@@ -61,8 +61,8 @@ exports.app = (0, express_1.default)();
 exports.app.use((0, cors_1.default)()); // CORS 설정 단순화 (같은 서버에서 서빙하므로)
 exports.app.use(body_parser_1.default.json());
 exports.app.use(body_parser_1.default.urlencoded({ extended: true }));
-// 정적 파일 제공
-exports.app.use(express_1.default.static("public"));
+// 정적 파일 제공 - 절대 경로 사용
+exports.app.use(express_1.default.static(path_1.default.join(__dirname, "../public")));
 // Swagger UI 설정
 exports.app.use("/docs", swagger_ui_express_1.default.serve, (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.send(swagger_ui_express_1.default.generateHTML(yield Promise.resolve().then(() => __importStar(require("../public/swagger.json")))));
@@ -78,14 +78,21 @@ exports.app.use((err, req, res, next) => {
         status,
     });
 });
-// React SPA 라우팅을 위한 설정 - 이 부분이 추가됨
-// API 및 docs 이외의 모든 요청을 React 앱의 index.html로 전달
-exports.app.get("*", (req, res, next) => {
-    // /api나 /docs로 시작하는 경로는 제외 (이미 위에서 처리됨)
-    if (req.path.startsWith("/api") || req.path.startsWith("/docs")) {
+// API 경로 목록
+const API_PATHS = ["/members", "/chat", "/docs"];
+// React SPA 라우팅을 위한 설정 - 수정된 부분
+exports.app.use((req, res, next) => {
+    // API 경로인지 확인
+    const isApiPath = API_PATHS.some((apiPath) => req.path.startsWith(apiPath));
+    // API 경로면 다음 핸들러로 넘김
+    if (isApiPath) {
         return next();
     }
-    // React 앱의 index.html 파일 경로
+    // POST, PUT, DELETE 등의 API 요청이면 next()로 넘김
+    if (req.method !== "GET") {
+        return next();
+    }
+    // API 경로가 아니고 GET 요청이면 React 앱의 index.html 파일 제공 - 절대 경로 사용
     res.sendFile(path_1.default.join(__dirname, "../public/index.html"));
 });
 // 서버 초기화 함수 (server.ts에서 호출)
