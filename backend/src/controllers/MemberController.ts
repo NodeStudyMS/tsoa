@@ -1,5 +1,4 @@
 // backend/src/controllers/MemberController.ts
-
 import {
   Body,
   Controller,
@@ -25,8 +24,8 @@ import { MemberService } from "../services/MemberService";
 import { generateToken } from "../utils/jwt";
 import * as express from "express";
 
-// API 경로를 /members로 지정
-@Route("members")
+// API 경로를 /api/members로 지정
+@Route("api/members")
 // Swagger 문서에서 'Member' 태그로 이 컨트롤러의 API들을 묶기
 @Tags("Member")
 export class MemberController extends Controller {
@@ -34,7 +33,7 @@ export class MemberController extends Controller {
   private service: MemberService = new MemberService();
 
   // 모든 회원 목록 조회
-  // GET /members
+  // GET /api/members
   @Get()
   // JWT 인증 필요
   @Security("jwt")
@@ -43,7 +42,7 @@ export class MemberController extends Controller {
   ): Promise<IMember[]> {
     // 모든 회원 정보 조회
     const members = await this.service.getAll();
-    console.log("GET /members 로그 : ", members);
+    console.log("GET /api/members 로그 : ", members);
     // 민감한 정보 제외하고 필요한 정보만 반환
     return members.map((member) => ({
       MID: member.MID,
@@ -53,7 +52,7 @@ export class MemberController extends Controller {
   }
 
   // 특정 회원 한 명의 정보만 조회
-  // GET /members/{mid}
+  // GET /api/members/{mid}
   @Get("{mid}")
   // JWT 인증 필요
   @Security("jwt")
@@ -63,7 +62,7 @@ export class MemberController extends Controller {
   ): Promise<IMember> {
     // ID로 회원 정보 조회
     const member = await this.service.getById(mid);
-    console.log("GET /members/{mid} 로그 : ", member);
+    console.log("GET /api/members/{mid} 로그 : ", member);
     // 민감한 정보 제외하고 필요한 정보만 반환
     return {
       MID: member.MID,
@@ -73,7 +72,7 @@ export class MemberController extends Controller {
   }
 
   // 회원가입 처리
-  // POST /members/register
+  // POST /api/members/register
   // 인증 불필요
   @Post("register")
   @Response<string>(201, "회원가입 성공")
@@ -102,7 +101,7 @@ export class MemberController extends Controller {
   }
 
   // 로그인
-  // POST /members/login
+  // POST /api/members/login
   // 인증 불필요
   @Post("login")
   @Response<string>(200, "로그인 성공")
@@ -114,7 +113,7 @@ export class MemberController extends Controller {
     // 로그인 정보(아이디, 비밀번호)를 받아서 서비스에 전달
     const member = await this.service.login(requestBody);
 
-    console.log("POST /members/login 로그 : ", member);
+    console.log("POST /api/members/login 로그 : ", member);
     // JWT 토큰 생성 (사용자 정보를 토큰 내부에 담음)
     const token = generateToken({
       MID: member.MID,
@@ -126,7 +125,7 @@ export class MemberController extends Controller {
   }
 
   // 회원정보 수정
-  // PUT /members/{mid}
+  // PUT /api/members/{mid}
   @Put("{mid}")
   // JWT 인증 필요
   @Security("jwt")
@@ -137,7 +136,7 @@ export class MemberController extends Controller {
   ): Promise<IMember> {
     // 회원 정보 업데이트
     const member = await this.service.update(mid, requestBody);
-    console.log("PUT /members/{mid} 로그 : ", member);
+    console.log("PUT /api/members/{mid} 로그 : ", member);
     // 민감한 정보 제외하고 필요한 정보만 반환
     return {
       MID: member.MID,
@@ -147,7 +146,7 @@ export class MemberController extends Controller {
   }
 
   // 회원 삭제
-  // DELETE /members/{mid}
+  // DELETE /api/members/{mid}
   @Delete("{mid}")
   // JWT 인증 필요
   @Security("jwt")
@@ -161,7 +160,7 @@ export class MemberController extends Controller {
   }
 
   // 현재 로그인한 사용자 정보 조회
-  // GET /members/me/profile
+  // GET /api/members/me/profile
   @Get("me/profile")
   // JWT 인증 필요
   @Security("jwt")
@@ -177,7 +176,7 @@ export class MemberController extends Controller {
     const userId = request.user.MID;
     const member = await this.service.getById(userId);
 
-    console.log("GET /members/me/profile 로그 : ", member);
+    console.log("GET /api/members/me/profile 로그 : ", member);
     // 민감한 정보 제외하고 필요한 정보만 반환
     return {
       MID: member.MID,

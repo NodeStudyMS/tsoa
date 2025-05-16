@@ -27,7 +27,7 @@ exports.BoardController = void 0;
 const tsoa_1 = require("tsoa");
 // BoardSerivce를 import 하고 실제 비즈니스 로직 처리
 const BoardSerivce_1 = require("../services/BoardSerivce");
-// C의 기본경로를 /boards로 설정
+// C의 기본경로를 /api/boards로 설정
 let BoardController = class BoardController extends tsoa_1.Controller {
     constructor() {
         super(...arguments);
@@ -100,9 +100,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardController.prototype, "updateBoard", null);
 __decorate([
-    (0, tsoa_1.Delete)("{boardId}") // /board/1, /board/2
+    (0, tsoa_1.Delete)("{boardId}") // /api/board/1, /api/board/2
     ,
-    (0, tsoa_1.Response)("204", "No Content") // 삭제 성공 시 204 ㅏㅂㄴ환
+    (0, tsoa_1.Response)("204", "No Content") // 삭제 성공 시 204 반환
     ,
     __param(0, (0, tsoa_1.Path)()),
     __metadata("design:type", Function),
@@ -110,7 +110,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardController.prototype, "deleteBoard", null);
 exports.BoardController = BoardController = __decorate([
-    (0, tsoa_1.Route)("boards")
+    (0, tsoa_1.Route)("api/boards")
     // Swagger 문서에서 Board 태그로 그룹화
     ,
     (0, tsoa_1.Tags)("Board")

@@ -18,8 +18,8 @@ import { Board, BoardCreationParams, BoardUpdateParams } from "../models/Board";
 // BoardSerivce를 import 하고 실제 비즈니스 로직 처리
 import { BoardService } from "../services/BoardSerivce";
 
-// C의 기본경로를 /boards로 설정
-@Route("boards")
+// C의 기본경로를 /api/boards로 설정
+@Route("api/boards")
 // Swagger 문서에서 Board 태그로 그룹화
 @Tags("Board")
 export class BoardController extends Controller {
@@ -60,8 +60,8 @@ export class BoardController extends Controller {
   }
 
   // 게시글 삭제 (DELETE 요청)
-  @Delete("{boardId}") // /board/1, /board/2
-  @Response("204", "No Content") // 삭제 성공 시 204 ㅏㅂㄴ환
+  @Delete("{boardId}") // /api/board/1, /api/board/2
+  @Response("204", "No Content") // 삭제 성공 시 204 반환
   public async deleteBoard(@Path() boardId: number): Promise<void> {
     return this.service.delete(boardId);
   }

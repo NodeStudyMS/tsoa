@@ -3,9 +3,8 @@
 import axios from "axios";
 import { ChatRoom, ChatMessage, User } from "../types";
 
-// 상대 경로로 변경 (같은 서버에서 실행될 때)
-const API_URL = ""; // 빈 문자열은 현재 호스트를 의미
-
+// API 기본 경로 설정 (IIS 환경에서 분리된 서버 사용 시)
+const API_URL = "/api"; // '/api' 접두사 추가
 // 인증 토큰을 헤더에 추가하는 함수
 const setAuthToken = (token: string | null) => {
   if (token) {

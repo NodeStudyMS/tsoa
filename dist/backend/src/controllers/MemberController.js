@@ -1,5 +1,4 @@
 "use strict";
-// backend/src/controllers/MemberController.ts
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -56,11 +55,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MemberController = void 0;
+// backend/src/controllers/MemberController.ts
 const tsoa_1 = require("tsoa");
 const MemberService_1 = require("../services/MemberService");
 const jwt_1 = require("../utils/jwt");
 const express = __importStar(require("express"));
-// API 경로를 /members로 지정
+// API 경로를 /api/members로 지정
 let MemberController = class MemberController extends tsoa_1.Controller {
     constructor() {
         super(...arguments);
@@ -68,12 +68,12 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         this.service = new MemberService_1.MemberService();
     }
     // 모든 회원 목록 조회
-    // GET /members
+    // GET /api/members
     getMembers(request) {
         return __awaiter(this, void 0, void 0, function* () {
             // 모든 회원 정보 조회
             const members = yield this.service.getAll();
-            console.log("GET /members 로그 : ", members);
+            console.log("GET /api/members 로그 : ", members);
             // 민감한 정보 제외하고 필요한 정보만 반환
             return members.map((member) => ({
                 MID: member.MID,
@@ -83,12 +83,12 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         });
     }
     // 특정 회원 한 명의 정보만 조회
-    // GET /members/{mid}
+    // GET /api/members/{mid}
     getMember(mid, request) {
         return __awaiter(this, void 0, void 0, function* () {
             // ID로 회원 정보 조회
             const member = yield this.service.getById(mid);
-            console.log("GET /members/{mid} 로그 : ", member);
+            console.log("GET /api/members/{mid} 로그 : ", member);
             // 민감한 정보 제외하고 필요한 정보만 반환
             return {
                 MID: member.MID,
@@ -98,7 +98,7 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         });
     }
     // 회원가입 처리
-    // POST /members/register
+    // POST /api/members/register
     // 인증 불필요
     registerMember(requestBody) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -119,13 +119,13 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         });
     }
     // 로그인
-    // POST /members/login
+    // POST /api/members/login
     // 인증 불필요
     loginMember(requestBody) {
         return __awaiter(this, void 0, void 0, function* () {
             // 로그인 정보(아이디, 비밀번호)를 받아서 서비스에 전달
             const member = yield this.service.login(requestBody);
-            console.log("POST /members/login 로그 : ", member);
+            console.log("POST /api/members/login 로그 : ", member);
             // JWT 토큰 생성 (사용자 정보를 토큰 내부에 담음)
             const token = (0, jwt_1.generateToken)({
                 MID: member.MID,
@@ -136,12 +136,12 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         });
     }
     // 회원정보 수정
-    // PUT /members/{mid}
+    // PUT /api/members/{mid}
     updateMember(mid, requestBody, request) {
         return __awaiter(this, void 0, void 0, function* () {
             // 회원 정보 업데이트
             const member = yield this.service.update(mid, requestBody);
-            console.log("PUT /members/{mid} 로그 : ", member);
+            console.log("PUT /api/members/{mid} 로그 : ", member);
             // 민감한 정보 제외하고 필요한 정보만 반환
             return {
                 MID: member.MID,
@@ -151,7 +151,7 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         });
     }
     // 회원 삭제
-    // DELETE /members/{mid}
+    // DELETE /api/members/{mid}
     deleteMember(mid, request) {
         return __awaiter(this, void 0, void 0, function* () {
             // 회원 삭제 처리
@@ -159,7 +159,7 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         });
     }
     // 현재 로그인한 사용자 정보 조회
-    // GET /members/me/profile
+    // GET /api/members/me/profile
     getMyProfile(request) {
         return __awaiter(this, void 0, void 0, function* () {
             // 인증 확인
@@ -169,7 +169,7 @@ let MemberController = class MemberController extends tsoa_1.Controller {
             // 토큰에서 추출한 사용자 ID로 정보 조회
             const userId = request.user.MID;
             const member = yield this.service.getById(userId);
-            console.log("GET /members/me/profile 로그 : ", member);
+            console.log("GET /api/members/me/profile 로그 : ", member);
             // 민감한 정보 제외하고 필요한 정보만 반환
             return {
                 MID: member.MID,
@@ -256,7 +256,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "getMyProfile", null);
 exports.MemberController = MemberController = __decorate([
-    (0, tsoa_1.Route)("members")
+    (0, tsoa_1.Route)("api/members")
     // Swagger 문서에서 'Member' 태그로 이 컨트롤러의 API들을 묶기
     ,
     (0, tsoa_1.Tags)("Member")

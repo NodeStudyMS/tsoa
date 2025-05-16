@@ -139,7 +139,7 @@ function RegisterRoutes(app) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-    app.get('/boards', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.getBoards)), function BoardController_getBoards(request, response, next) {
+    app.get('/api/boards', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.getBoards)), function BoardController_getBoards(request, response, next) {
         const args = {};
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         let validatedArgs = [];
@@ -154,7 +154,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/boards/:boardId', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.getBoard)), function BoardController_getBoard(request, response, next) {
+    app.get('/api/boards/:boardId', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.getBoard)), function BoardController_getBoard(request, response, next) {
         const args = {
             boardId: { "in": "path", "name": "boardId", "required": true, "dataType": "double" },
         };
@@ -171,7 +171,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/boards', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.createBoard)), function BoardController_createBoard(request, response, next) {
+    app.post('/api/boards', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.createBoard)), function BoardController_createBoard(request, response, next) {
         const args = {
             requestBody: { "in": "body", "name": "requestBody", "required": true, "ref": "BoardCreationParams" },
         };
@@ -188,7 +188,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.put('/boards/:boardId', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.updateBoard)), function BoardController_updateBoard(request, response, next) {
+    app.put('/api/boards/:boardId', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.updateBoard)), function BoardController_updateBoard(request, response, next) {
         const args = {
             boardId: { "in": "path", "name": "boardId", "required": true, "dataType": "double" },
             requestBody: { "in": "body", "name": "requestBody", "required": true, "ref": "BoardUpdateParams" },
@@ -206,7 +206,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.delete('/boards/:boardId', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.deleteBoard)), function BoardController_deleteBoard(request, response, next) {
+    app.delete('/api/boards/:boardId', ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController)), ...((0, runtime_1.fetchMiddlewares)(BoardController_1.BoardController.prototype.deleteBoard)), function BoardController_deleteBoard(request, response, next) {
         const args = {
             boardId: { "in": "path", "name": "boardId", "required": true, "dataType": "double" },
         };
@@ -223,7 +223,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/chat/rooms', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController)), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController.prototype.getChatRooms)), function ChatController_getChatRooms(request, response, next) {
+    app.get('/api/chat/rooms', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController)), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController.prototype.getChatRooms)), function ChatController_getChatRooms(request, response, next) {
         const args = {
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
         };
@@ -240,7 +240,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/chat/rooms/:roomId', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController)), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController.prototype.getChatRoom)), function ChatController_getChatRoom(request, response, next) {
+    app.get('/api/chat/rooms/:roomId', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController)), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController.prototype.getChatRoom)), function ChatController_getChatRoom(request, response, next) {
         const args = {
             roomId: { "in": "path", "name": "roomId", "required": true, "dataType": "string" },
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
@@ -258,7 +258,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/chat/rooms/:roomId/messages', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController)), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController.prototype.getChatMessages)), function ChatController_getChatMessages(request, response, next) {
+    app.get('/api/chat/rooms/:roomId/messages', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController)), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController.prototype.getChatMessages)), function ChatController_getChatMessages(request, response, next) {
         const args = {
             roomId: { "in": "path", "name": "roomId", "required": true, "dataType": "string" },
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
@@ -276,7 +276,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/members', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.getMembers)), function MemberController_getMembers(request, response, next) {
+    app.get('/api/members', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.getMembers)), function MemberController_getMembers(request, response, next) {
         const args = {
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
         };
@@ -293,7 +293,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/members/:mid', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.getMember)), function MemberController_getMember(request, response, next) {
+    app.get('/api/members/:mid', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.getMember)), function MemberController_getMember(request, response, next) {
         const args = {
             mid: { "in": "path", "name": "mid", "required": true, "dataType": "string" },
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
@@ -311,7 +311,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/members/register', ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.registerMember)), function MemberController_registerMember(request, response, next) {
+    app.post('/api/members/register', ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.registerMember)), function MemberController_registerMember(request, response, next) {
         const args = {
             requestBody: { "in": "body", "name": "requestBody", "required": true, "ref": "MemberCreationParams" },
         };
@@ -328,7 +328,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.post('/members/login', ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.loginMember)), function MemberController_loginMember(request, response, next) {
+    app.post('/api/members/login', ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.loginMember)), function MemberController_loginMember(request, response, next) {
         const args = {
             requestBody: { "in": "body", "name": "requestBody", "required": true, "ref": "MemberLoginParams" },
         };
@@ -345,7 +345,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.put('/members/:mid', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.updateMember)), function MemberController_updateMember(request, response, next) {
+    app.put('/api/members/:mid', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.updateMember)), function MemberController_updateMember(request, response, next) {
         const args = {
             mid: { "in": "path", "name": "mid", "required": true, "dataType": "string" },
             requestBody: { "in": "body", "name": "requestBody", "required": true, "ref": "MemberUpdateParams" },
@@ -364,7 +364,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.delete('/members/:mid', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.deleteMember)), function MemberController_deleteMember(request, response, next) {
+    app.delete('/api/members/:mid', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.deleteMember)), function MemberController_deleteMember(request, response, next) {
         const args = {
             mid: { "in": "path", "name": "mid", "required": true, "dataType": "string" },
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
@@ -382,7 +382,7 @@ function RegisterRoutes(app) {
         }
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    app.get('/members/me/profile', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.getMyProfile)), function MemberController_getMyProfile(request, response, next) {
+    app.get('/api/members/me/profile', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController)), ...((0, runtime_1.fetchMiddlewares)(MemberController_1.MemberController.prototype.getMyProfile)), function MemberController_getMyProfile(request, response, next) {
         const args = {
             request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
         };

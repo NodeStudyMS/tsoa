@@ -5,7 +5,7 @@ import { ChatMessage, UserJoinedEvent, UserLeftEvent } from "../types";
 
 class SocketService {
   private socket: Socket | null = null;
-  private readonly url = "";
+  private readonly url = "/api"; // '/api' 접두사 추가
 
   // 소켓 연결 부분
   connect(token: string) {

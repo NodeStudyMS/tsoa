@@ -78,8 +78,8 @@ exports.app.use((err, req, res, next) => {
         status,
     });
 });
-// API 경로 목록
-const API_PATHS = ["/members", "/chat", "/docs"];
+// API 경로 목록 (접두사 /api 추가)
+const API_PATHS = ["/api/members", "/api/chat", "/docs"];
 // React SPA 라우팅을 위한 설정 - 수정된 부분
 exports.app.use((req, res, next) => {
     // API 경로인지 확인

@@ -1,5 +1,4 @@
 "use strict";
-// backend/src/controllers/ChatController.ts
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -56,6 +55,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatController = void 0;
+// backend/src/controllers/ChatController.ts
 const tsoa_1 = require("tsoa");
 const ChatService_1 = require("../services/ChatService");
 const express = __importStar(require("express"));
@@ -116,6 +116,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChatController.prototype, "getChatMessages", null);
 exports.ChatController = ChatController = __decorate([
-    (0, tsoa_1.Route)("chat"),
+    (0, tsoa_1.Route)("api/chat"),
     (0, tsoa_1.Tags)("Chat")
 ], ChatController);
