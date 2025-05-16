@@ -49,7 +49,7 @@ export class Member
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  // toString 메서드 추가 (여기에 추가!)
+  // toString override
   toString(): string {
     return `Member(MID: ${this.MID}, MEMBERNAME: ${this.MEMBERNAME}, MROLE: ${this.MROLE})`;
   }
