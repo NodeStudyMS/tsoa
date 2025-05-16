@@ -75,7 +75,7 @@ export class MemberController extends Controller {
   // 회원가입 처리
   // POST /members/register
   // 인증 불필요
-  @Post("register")
+  @Post("api/register")
   @Response<string>(201, "회원가입 성공")
   @Response<Error>(409, "이미 존재하는 사용자")
   @Example<string>("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")

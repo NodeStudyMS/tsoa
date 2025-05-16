@@ -15,7 +15,7 @@ import { IChatRoom } from "../models/ChatRoom";
 import { IChatMessage } from "../models/ChatMessage";
 import * as express from "express";
 
-@Route("chat")
+@Route("api/chat")
 @Tags("Chat")
 export class ChatController extends Controller {
   private service: ChatService = new ChatService();

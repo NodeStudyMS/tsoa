@@ -132,7 +132,7 @@ export function RegisterRoutes(app: Router) {
     //  NOTE: If you do not see routes for all of your controllers in this file, then you might not have informed tsoa of where to look
     //      Please look into the "controllerPathGlobs" config option described in the readme: https://github.com/lukeautry/tsoa
     // ###########################################################################################################
-        app.get('/boards',
+        app.get('/api/boards',
             ...(fetchMiddlewares<RequestHandler>(BoardController)),
             ...(fetchMiddlewares<RequestHandler>(BoardController.prototype.getBoards)),
 
@@ -156,7 +156,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/boards/:boardId',
+        app.get('/api/boards/:boardId',
             ...(fetchMiddlewares<RequestHandler>(BoardController)),
             ...(fetchMiddlewares<RequestHandler>(BoardController.prototype.getBoard)),
 
@@ -181,7 +181,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/boards',
+        app.post('/api/boards',
             ...(fetchMiddlewares<RequestHandler>(BoardController)),
             ...(fetchMiddlewares<RequestHandler>(BoardController.prototype.createBoard)),
 
@@ -206,7 +206,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.put('/boards/:boardId',
+        app.put('/api/boards/:boardId',
             ...(fetchMiddlewares<RequestHandler>(BoardController)),
             ...(fetchMiddlewares<RequestHandler>(BoardController.prototype.updateBoard)),
 
@@ -232,7 +232,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.delete('/boards/:boardId',
+        app.delete('/api/boards/:boardId',
             ...(fetchMiddlewares<RequestHandler>(BoardController)),
             ...(fetchMiddlewares<RequestHandler>(BoardController.prototype.deleteBoard)),
 
@@ -257,7 +257,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/chat/rooms',
+        app.get('/api/chat/rooms',
             authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ChatController)),
             ...(fetchMiddlewares<RequestHandler>(ChatController.prototype.getChatRooms)),
@@ -283,7 +283,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/chat/rooms/:roomId',
+        app.get('/api/chat/rooms/:roomId',
             authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ChatController)),
             ...(fetchMiddlewares<RequestHandler>(ChatController.prototype.getChatRoom)),
@@ -310,7 +310,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.get('/chat/rooms/:roomId/messages',
+        app.get('/api/chat/rooms/:roomId/messages',
             authenticateMiddleware([{"jwt":[]}]),
             ...(fetchMiddlewares<RequestHandler>(ChatController)),
             ...(fetchMiddlewares<RequestHandler>(ChatController.prototype.getChatMessages)),
@@ -390,7 +390,7 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-        app.post('/members/register',
+        app.post('/members/api/register',
             ...(fetchMiddlewares<RequestHandler>(MemberController)),
             ...(fetchMiddlewares<RequestHandler>(MemberController.prototype.registerMember)),
 

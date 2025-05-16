@@ -202,7 +202,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "getMember", null);
 __decorate([
-    (0, tsoa_1.Post)("register"),
+    (0, tsoa_1.Post)("api/register"),
     (0, tsoa_1.Response)(201, "회원가입 성공"),
     (0, tsoa_1.Response)(409, "이미 존재하는 사용자"),
     (0, tsoa_1.Example)("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."),

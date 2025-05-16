@@ -239,7 +239,7 @@
 	},
 	"openapi": "3.0.0",
 	"paths": {
-		"/boards": {
+		"/api/boards": {
 			"get": {
 				"operationId": "GetBoards",
 				"responses": {
@@ -294,7 +294,7 @@
 				}
 			}
 		},
-		"/boards/{boardId}": {
+		"/api/boards/{boardId}": {
 			"get": {
 				"operationId": "GetBoard",
 				"responses": {
@@ -389,7 +389,7 @@
 				]
 			}
 		},
-		"/chat/rooms": {
+		"/api/chat/rooms": {
 			"get": {
 				"operationId": "GetChatRooms",
 				"responses": {
@@ -418,7 +418,7 @@
 				"parameters": []
 			}
 		},
-		"/chat/rooms/{roomId}": {
+		"/api/chat/rooms/{roomId}": {
 			"get": {
 				"operationId": "GetChatRoom",
 				"responses": {
@@ -453,7 +453,7 @@
 				]
 			}
 		},
-		"/chat/rooms/{roomId}/messages": {
+		"/api/chat/rooms/{roomId}/messages": {
 			"get": {
 				"operationId": "GetChatMessages",
 				"responses": {
@@ -624,7 +624,7 @@
 				]
 			}
 		},
-		"/members/register": {
+		"/members/api/register": {
 			"post": {
 				"operationId": "RegisterMember",
 				"responses": {

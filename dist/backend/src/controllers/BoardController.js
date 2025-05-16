@@ -110,7 +110,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BoardController.prototype, "deleteBoard", null);
 exports.BoardController = BoardController = __decorate([
-    (0, tsoa_1.Route)("boards")
+    (0, tsoa_1.Route)("api/boards")
     // Swagger 문서에서 Board 태그로 그룹화
     ,
     (0, tsoa_1.Tags)("Board")
