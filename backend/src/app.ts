@@ -1,5 +1,4 @@
 // backend/src/app.ts
-
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -7,16 +6,12 @@ import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes/routes";
 import { initDatabase } from "./db/sequelize";
 import { ChatService } from "./services/ChatService";
+import path from "path"; // path 모듈 추가
 
 export const app = express();
 
 // 미들웨어 설정
-app.use(
-  cors({
-    origin: "http://localhost:3001", // 프론트엔드 주소 명시적 지정
-    credentials: true, // 인증 정보 전송 허용
-  })
-);
+app.use(cors()); // CORS 설정 단순화 (같은 서버에서 서빙하므로)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -54,6 +49,18 @@ app.use(
     });
   }
 );
+
+// React SPA 라우팅을 위한 설정 - 이 부분이 추가됨
+// API 및 docs 이외의 모든 요청을 React 앱의 index.html로 전달
+app.get("*", (req, res, next) => {
+  // /api나 /docs로 시작하는 경로는 제외 (이미 위에서 처리됨)
+  if (req.path.startsWith("/api") || req.path.startsWith("/docs")) {
+    return next();
+  }
+
+  // React 앱의 index.html 파일 경로
+  res.sendFile(path.join(__dirname, "../public/index.html"));
+});
 
 // 서버 초기화 함수 (server.ts에서 호출)
 export async function initServer() {

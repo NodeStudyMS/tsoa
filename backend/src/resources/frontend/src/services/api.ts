@@ -3,7 +3,7 @@
 import axios from "axios";
 import { ChatRoom, ChatMessage, User } from "../types";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "";
 
 // 인증 토큰을 헤더에 추가하는 함수
 const setAuthToken = (token: string | null) => {

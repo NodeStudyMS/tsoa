@@ -1,5 +1,4 @@
 "use strict";
-// backend/src/app.ts
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -48,6 +47,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 exports.initServer = initServer;
+// backend/src/app.ts
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
@@ -55,12 +55,10 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/routes");
 const sequelize_1 = require("./db/sequelize");
 const ChatService_1 = require("./services/ChatService");
+const path_1 = __importDefault(require("path")); // path 모듈 추가
 exports.app = (0, express_1.default)();
 // 미들웨어 설정
-exports.app.use((0, cors_1.default)({
-    origin: "http://localhost:3001", // 프론트엔드 주소 명시적 지정
-    credentials: true, // 인증 정보 전송 허용
-}));
+exports.app.use((0, cors_1.default)()); // CORS 설정 단순화 (같은 서버에서 서빙하므로)
 exports.app.use(body_parser_1.default.json());
 exports.app.use(body_parser_1.default.urlencoded({ extended: true }));
 // 정적 파일 제공
@@ -80,6 +78,16 @@ exports.app.use((err, req, res, next) => {
         status,
     });
 });
+// React SPA 라우팅을 위한 설정 - 이 부분이 추가됨
+// API 및 docs 이외의 모든 요청을 React 앱의 index.html로 전달
+exports.app.get("*", (req, res, next) => {
+    // /api나 /docs로 시작하는 경로는 제외 (이미 위에서 처리됨)
+    if (req.path.startsWith("/api") || req.path.startsWith("/docs")) {
+        return next();
+    }
+    // React 앱의 index.html 파일 경로
+    res.sendFile(path_1.default.join(__dirname, "../public/index.html"));
+});
 // 서버 초기화 함수 (server.ts에서 호출)
 function initServer() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -93,9 +101,15 @@ function initServer() {
         }
         catch (error) {
             console.error("서버 초기화 실패:", error);
-            process.exit(1);
+            throw error;
         }
     });
 }
-// 서버 초기화 실행
-initServer();
+// 직접 실행될 때만 초기화 (개발 중 테스트용)
+if (require.main === module) {
+    console.warn("경고: app.ts를 직접 실행하지 마세요. server.ts를 통해 실행하세요.");
+    initServer().catch((err) => {
+        console.error("초기화 실패:", err);
+        process.exit(1);
+    });
+}

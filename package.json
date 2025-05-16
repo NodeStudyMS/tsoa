@@ -5,6 +5,7 @@
   "main": "backend/src/server.ts",
   "scripts": {
     "build": "cd backend && tsoa spec-and-routes && cd .. && tsc",
+    "build:all": "npm run build && cd backend/src/resources/frontend && npm run build",
     "start": "node dist/backend/src/server.js",
     "dev": "concurrently \"nodemon\" \"cd backend && nodemon -x tsoa spec-and-routes\"",
     "test": "jest"

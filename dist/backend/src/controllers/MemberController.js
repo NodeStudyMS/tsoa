@@ -73,6 +73,7 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         return __awaiter(this, void 0, void 0, function* () {
             // 모든 회원 정보 조회
             const members = yield this.service.getAll();
+            console.log("GET /members 로그 : ", members);
             // 민감한 정보 제외하고 필요한 정보만 반환
             return members.map((member) => ({
                 MID: member.MID,
@@ -87,6 +88,7 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         return __awaiter(this, void 0, void 0, function* () {
             // ID로 회원 정보 조회
             const member = yield this.service.getById(mid);
+            console.log("GET /members/{mid} 로그 : ", member);
             // 민감한 정보 제외하고 필요한 정보만 반환
             return {
                 MID: member.MID,
@@ -123,6 +125,7 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         return __awaiter(this, void 0, void 0, function* () {
             // 로그인 정보(아이디, 비밀번호)를 받아서 서비스에 전달
             const member = yield this.service.login(requestBody);
+            console.log("POST /members/login 로그 : ", member);
             // JWT 토큰 생성 (사용자 정보를 토큰 내부에 담음)
             const token = (0, jwt_1.generateToken)({
                 MID: member.MID,
@@ -138,6 +141,7 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         return __awaiter(this, void 0, void 0, function* () {
             // 회원 정보 업데이트
             const member = yield this.service.update(mid, requestBody);
+            console.log("PUT /members/{mid} 로그 : ", member);
             // 민감한 정보 제외하고 필요한 정보만 반환
             return {
                 MID: member.MID,
@@ -165,6 +169,7 @@ let MemberController = class MemberController extends tsoa_1.Controller {
             // 토큰에서 추출한 사용자 ID로 정보 조회
             const userId = request.user.MID;
             const member = yield this.service.getById(userId);
+            console.log("GET /members/me/profile 로그 : ", member);
             // 민감한 정보 제외하고 필요한 정보만 반환
             return {
                 MID: member.MID,
