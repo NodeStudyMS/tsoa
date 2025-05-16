@@ -9,6 +9,10 @@ const sequelize_1 = require("sequelize");
 const sequelize_2 = __importDefault(require("../db/sequelize"));
 // Sequelize 모델 정의 및 초기화를 한 번에 수행
 class Member extends sequelize_1.Model {
+    // toString override
+    toString() {
+        return `Member(MID: ${this.MID}, MEMBERNAME: ${this.MEMBERNAME}, MROLE: ${this.MROLE})`;
+    }
 }
 exports.Member = Member;
 // 모델 초기화

@@ -1,5 +1,4 @@
 "use strict";
-// backend/src/app.ts
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -48,6 +47,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 exports.initServer = initServer;
+// backend/src/app.ts
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
@@ -55,16 +55,14 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/routes");
 const sequelize_1 = require("./db/sequelize");
 const ChatService_1 = require("./services/ChatService");
+const path_1 = __importDefault(require("path")); // path 모듈 추가
 exports.app = (0, express_1.default)();
 // 미들웨어 설정
-exports.app.use((0, cors_1.default)({
-    origin: "http://localhost:3001", // 프론트엔드 주소 명시적 지정
-    credentials: true, // 인증 정보 전송 허용
-}));
+exports.app.use((0, cors_1.default)()); // CORS 설정 단순화 (같은 서버에서 서빙하므로)
 exports.app.use(body_parser_1.default.json());
 exports.app.use(body_parser_1.default.urlencoded({ extended: true }));
-// 정적 파일 제공
-exports.app.use(express_1.default.static("public"));
+// 정적 파일 제공 - 절대 경로 사용
+exports.app.use(express_1.default.static(path_1.default.join(__dirname, "../public")));
 // Swagger UI 설정
 exports.app.use("/docs", swagger_ui_express_1.default.serve, (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     return res.send(swagger_ui_express_1.default.generateHTML(yield Promise.resolve().then(() => __importStar(require("../public/swagger.json")))));
@@ -80,6 +78,23 @@ exports.app.use((err, req, res, next) => {
         status,
     });
 });
+// API 경로 목록
+const API_PATHS = ["/members", "/chat", "/docs"];
+// React SPA 라우팅을 위한 설정 - 수정된 부분
+exports.app.use((req, res, next) => {
+    // API 경로인지 확인
+    const isApiPath = API_PATHS.some((apiPath) => req.path.startsWith(apiPath));
+    // API 경로면 다음 핸들러로 넘김
+    if (isApiPath) {
+        return next();
+    }
+    // POST, PUT, DELETE 등의 API 요청이면 next()로 넘김
+    if (req.method !== "GET") {
+        return next();
+    }
+    // API 경로가 아니고 GET 요청이면 React 앱의 index.html 파일 제공 - 절대 경로 사용
+    res.sendFile(path_1.default.join(__dirname, "../public/index.html"));
+});
 // 서버 초기화 함수 (server.ts에서 호출)
 function initServer() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -93,9 +108,15 @@ function initServer() {
         }
         catch (error) {
             console.error("서버 초기화 실패:", error);
-            process.exit(1);
+            throw error;
         }
     });
 }
-// 서버 초기화 실행
-initServer();
+// 직접 실행될 때만 초기화 (개발 중 테스트용)
+if (require.main === module) {
+    console.warn("경고: app.ts를 직접 실행하지 마세요. server.ts를 통해 실행하세요.");
+    initServer().catch((err) => {
+        console.error("초기화 실패:", err);
+        process.exit(1);
+    });
+}

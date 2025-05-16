@@ -64,19 +64,24 @@ let ChatController = class ChatController extends tsoa_1.Controller {
         super(...arguments);
         this.service = new ChatService_1.ChatService();
     }
-    // 모든 채팅방 목록 조회
+    // 채팅방 목록을 전부 가져오는 API
+    // JWT 토큰으로 인증된 사용자만 접근 가능
     getChatRooms(request) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.service.getAllRooms();
         });
     }
-    // 특정 채팅방 정보 조회
+    // 특정 ID의 채팅방 정보를 조회하는 API
+    // 채팅방 ID를 경로 파라미터로 받음
+    // JWT 토큰으로 인증된 사용자만 접근 가능
     getChatRoom(roomId, request) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.service.getRoomById(roomId);
         });
     }
-    // 특정 채팅방의 메시지 조회
+    // 특정 채팅방의 메시지 내역을 조회하는 API
+    // 채팅방 ID를 경로 파라미터로 받아서 해당 방의 메시지만 가져옴
+    // JWT 토큰으로 인증된 사용자만 접근 가능
     getChatMessages(roomId, request) {
         return __awaiter(this, void 0, void 0, function* () {
             return yield this.service.getMessagesByRoomId(roomId);
@@ -85,16 +90,16 @@ let ChatController = class ChatController extends tsoa_1.Controller {
 };
 exports.ChatController = ChatController;
 __decorate([
-    (0, tsoa_1.Get)('rooms'),
-    (0, tsoa_1.Security)('jwt'),
+    (0, tsoa_1.Get)("rooms"),
+    (0, tsoa_1.Security)("jwt"),
     __param(0, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ChatController.prototype, "getChatRooms", null);
 __decorate([
-    (0, tsoa_1.Get)('rooms/{roomId}'),
-    (0, tsoa_1.Security)('jwt'),
+    (0, tsoa_1.Get)("rooms/{roomId}"),
+    (0, tsoa_1.Security)("jwt"),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
@@ -102,8 +107,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChatController.prototype, "getChatRoom", null);
 __decorate([
-    (0, tsoa_1.Get)('rooms/{roomId}/messages'),
-    (0, tsoa_1.Security)('jwt'),
+    (0, tsoa_1.Get)("rooms/{roomId}/messages"),
+    (0, tsoa_1.Security)("jwt"),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
@@ -111,6 +116,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChatController.prototype, "getChatMessages", null);
 exports.ChatController = ChatController = __decorate([
-    (0, tsoa_1.Route)('chat'),
-    (0, tsoa_1.Tags)('Chat')
+    (0, tsoa_1.Route)("chat"),
+    (0, tsoa_1.Tags)("Chat")
 ], ChatController);
