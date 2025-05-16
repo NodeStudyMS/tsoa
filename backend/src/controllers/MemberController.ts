@@ -43,6 +43,7 @@ export class MemberController extends Controller {
   ): Promise<IMember[]> {
     // 모든 회원 정보 조회
     const members = await this.service.getAll();
+    console.log("GET /members 로그 : ", members);
     // 민감한 정보 제외하고 필요한 정보만 반환
     return members.map((member) => ({
       MID: member.MID,
@@ -62,6 +63,7 @@ export class MemberController extends Controller {
   ): Promise<IMember> {
     // ID로 회원 정보 조회
     const member = await this.service.getById(mid);
+    console.log("GET /members/{mid} 로그 : ", member);
     // 민감한 정보 제외하고 필요한 정보만 반환
     return {
       MID: member.MID,
@@ -112,6 +114,7 @@ export class MemberController extends Controller {
     // 로그인 정보(아이디, 비밀번호)를 받아서 서비스에 전달
     const member = await this.service.login(requestBody);
 
+    console.log("POST /members/login 로그 : ", member);
     // JWT 토큰 생성 (사용자 정보를 토큰 내부에 담음)
     const token = generateToken({
       MID: member.MID,
@@ -134,6 +137,7 @@ export class MemberController extends Controller {
   ): Promise<IMember> {
     // 회원 정보 업데이트
     const member = await this.service.update(mid, requestBody);
+    console.log("PUT /members/{mid} 로그 : ", member);
     // 민감한 정보 제외하고 필요한 정보만 반환
     return {
       MID: member.MID,
@@ -172,6 +176,8 @@ export class MemberController extends Controller {
     // 토큰에서 추출한 사용자 ID로 정보 조회
     const userId = request.user.MID;
     const member = await this.service.getById(userId);
+
+    console.log("GET /members/me/profile 로그 : ", member);
     // 민감한 정보 제외하고 필요한 정보만 반환
     return {
       MID: member.MID,

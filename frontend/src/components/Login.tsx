@@ -19,9 +19,9 @@ const Login: React.FC = () => {
       const role = await login(mid, mpw);
       
       // 역할에 따라 다른 알림 표시
-      if (role === 'ADMIN') {
+      if (role === 'admin') {
         alert('관리자로 로그인하셨습니다.');
-      } else if (role === 'USER') {
+      } else if (role === 'user') {
         alert('일반 사용자로 로그인하셨습니다.');
       } else {
         // 역할이 명확하지 않은 경우
