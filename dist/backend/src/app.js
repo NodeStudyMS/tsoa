@@ -1,5 +1,5 @@
 "use strict";
-//src/app.ts
+// backend/src/app.ts
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -47,38 +47,55 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
+exports.initServer = initServer;
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/routes");
+const sequelize_1 = require("./db/sequelize");
+const ChatService_1 = require("./services/ChatService");
 exports.app = (0, express_1.default)();
 // 미들웨어 설정
-exports.app.use((0, cors_1.default)());
+exports.app.use((0, cors_1.default)({
+    origin: "http://localhost:3001", // 프론트엔드 주소 명시적 지정
+    credentials: true, // 인증 정보 전송 허용
+}));
 exports.app.use(body_parser_1.default.json());
 exports.app.use(body_parser_1.default.urlencoded({ extended: true }));
 // 정적 파일 제공
-exports.app.use(express_1.default.static('public'));
+exports.app.use(express_1.default.static("public"));
 // Swagger UI 설정
-exports.app.use('/docs', swagger_ui_express_1.default.serve, (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    return res.send(swagger_ui_express_1.default.generateHTML(yield Promise.resolve().then(() => __importStar(require('../public/swagger.json')))));
+exports.app.use("/docs", swagger_ui_express_1.default.serve, (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.send(swagger_ui_express_1.default.generateHTML(yield Promise.resolve().then(() => __importStar(require("../public/swagger.json")))));
 }));
 // tsoa 라우트 등록
 (0, routes_1.RegisterRoutes)(exports.app);
 // 에러 핸들링
 exports.app.use((err, req, res, next) => {
     const status = err.status || 500;
-    const message = err.message || 'Something went wrong';
+    const message = err.message || "Something went wrong";
     res.status(status).json({
         message,
-        status
+        status,
     });
 });
-// 서버 실행 시 로그 출력
-if (require.main === module) {
-    const PORT = process.env.PORT || 3000;
-    exports.app.listen(PORT, () => {
-        console.log(`서버가 시작되었습니다! http://localhost:${PORT}`);
-        console.log(`Swagger UI: http://localhost:${PORT}/docs`);
+// 서버 초기화 함수 (server.ts에서 호출)
+function initServer() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // 데이터베이스 초기화
+            yield (0, sequelize_1.initDatabase)();
+            // 기본 채팅방 초기화
+            const chatService = new ChatService_1.ChatService();
+            yield chatService.initializeDefaultRooms();
+            console.log("서버 초기화 완료");
+        }
+        catch (error) {
+            console.error("서버 초기화 실패:", error);
+            process.exit(1);
+        }
     });
 }
+// 서버 초기화 실행
+initServer();

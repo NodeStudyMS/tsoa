@@ -17,6 +17,8 @@ const runtime_1 = require("@tsoa/runtime");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const BoardController_1 = require("./../controllers/BoardController");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+const ChatController_1 = require("./../controllers/ChatController");
+// WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const MemberController_1 = require("./../controllers/MemberController");
 const authentication_1 = require("./../authentication");
 // @ts-ignore - no great way to install types from subpackage
@@ -51,6 +53,29 @@ const models = {
             "BOARDTITLE": { "dataType": "string" },
             "BOARDCONTENT": { "dataType": "string" },
             "MEMBERNAME": { "dataType": "string" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IChatRoom": {
+        "dataType": "refObject",
+        "properties": {
+            "id": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "description": { "dataType": "union", "subSchemas": [{ "dataType": "string" }, { "dataType": "enum", "enums": [null] }] },
+            "createdAt": { "dataType": "datetime" },
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "IChatMessage": {
+        "dataType": "refObject",
+        "properties": {
+            "id": { "dataType": "double" },
+            "content": { "dataType": "string", "required": true },
+            "senderId": { "dataType": "string", "required": true },
+            "roomId": { "dataType": "string", "required": true },
+            "createdAt": { "dataType": "datetime" },
         },
         "additionalProperties": false,
     },
@@ -191,6 +216,59 @@ function RegisterRoutes(app) {
             validatedArgs = getValidatedArgs(args, request, response);
             const controller = new BoardController_1.BoardController();
             const promise = controller.deleteBoard.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/chat/rooms', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController)), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController.prototype.getChatRooms)), function ChatController_getChatRooms(request, response, next) {
+        const args = {
+            request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        };
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new ChatController_1.ChatController();
+            const promise = controller.getChatRooms.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/chat/rooms/:roomId', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController)), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController.prototype.getChatRoom)), function ChatController_getChatRoom(request, response, next) {
+        const args = {
+            roomId: { "in": "path", "name": "roomId", "required": true, "dataType": "string" },
+            request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        };
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new ChatController_1.ChatController();
+            const promise = controller.getChatRoom.apply(controller, validatedArgs);
+            promiseHandler(controller, promise, response, undefined, next);
+        }
+        catch (err) {
+            return next(err);
+        }
+    });
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    app.get('/chat/rooms/:roomId/messages', authenticateMiddleware([{ "jwt": [] }]), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController)), ...((0, runtime_1.fetchMiddlewares)(ChatController_1.ChatController.prototype.getChatMessages)), function ChatController_getChatMessages(request, response, next) {
+        const args = {
+            roomId: { "in": "path", "name": "roomId", "required": true, "dataType": "string" },
+            request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+        };
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        let validatedArgs = [];
+        try {
+            validatedArgs = getValidatedArgs(args, request, response);
+            const controller = new ChatController_1.ChatController();
+            const promise = controller.getChatMessages.apply(controller, validatedArgs);
             promiseHandler(controller, promise, response, undefined, next);
         }
         catch (err) {

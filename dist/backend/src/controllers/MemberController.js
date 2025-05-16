@@ -1,4 +1,5 @@
 "use strict";
+// backend/src/controllers/MemberController.ts
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -67,46 +68,57 @@ let MemberController = class MemberController extends tsoa_1.Controller {
         this.service = new MemberService_1.MemberService();
     }
     // 모든 회원 목록 조회
+    // GET /members
     getMembers(request) {
         return __awaiter(this, void 0, void 0, function* () {
+            // 모든 회원 정보 조회
             const members = yield this.service.getAll();
-            return members.map(member => ({
+            // 민감한 정보 제외하고 필요한 정보만 반환
+            return members.map((member) => ({
                 MID: member.MID,
                 MEMBERNAME: member.MEMBERNAME,
-                MROLE: member.MROLE
+                MROLE: member.MROLE,
             }));
         });
     }
     // 특정 회원 한 명의 정보만 조회
+    // GET /members/{mid}
     getMember(mid, request) {
         return __awaiter(this, void 0, void 0, function* () {
+            // ID로 회원 정보 조회
             const member = yield this.service.getById(mid);
+            // 민감한 정보 제외하고 필요한 정보만 반환
             return {
                 MID: member.MID,
                 MEMBERNAME: member.MEMBERNAME,
-                MROLE: member.MROLE
+                MROLE: member.MROLE,
             };
         });
     }
     // 회원가입 처리
+    // POST /members/register
+    // 인증 불필요
     registerMember(requestBody) {
         return __awaiter(this, void 0, void 0, function* () {
             // 기본 역할 설정 (지정되지 않은 경우)
             if (!requestBody.MROLE) {
-                requestBody.MROLE = 'user';
+                requestBody.MROLE = "user";
             }
+            // 회원가입 처리
             const member = yield this.service.register(requestBody);
             // JWT 토큰 생성 (사용자 정보를 토큰 내부에 담음)
             const token = (0, jwt_1.generateToken)({
                 MID: member.MID,
                 MEMBERNAME: member.MEMBERNAME,
-                MROLE: member.MROLE
+                MROLE: member.MROLE,
             });
             this.setStatus(201); // Created
             return token;
         });
     }
     // 로그인
+    // POST /members/login
+    // 인증 불필요
     loginMember(requestBody) {
         return __awaiter(this, void 0, void 0, function* () {
             // 로그인 정보(아이디, 비밀번호)를 받아서 서비스에 전달
@@ -115,56 +127,69 @@ let MemberController = class MemberController extends tsoa_1.Controller {
             const token = (0, jwt_1.generateToken)({
                 MID: member.MID,
                 MEMBERNAME: member.MEMBERNAME,
-                MROLE: member.MROLE
+                MROLE: member.MROLE,
             });
             return token;
         });
     }
     // 회원정보 수정
+    // PUT /members/{mid}
     updateMember(mid, requestBody, request) {
         return __awaiter(this, void 0, void 0, function* () {
+            // 회원 정보 업데이트
             const member = yield this.service.update(mid, requestBody);
+            // 민감한 정보 제외하고 필요한 정보만 반환
             return {
                 MID: member.MID,
                 MEMBERNAME: member.MEMBERNAME,
-                MROLE: member.MROLE
+                MROLE: member.MROLE,
             };
         });
     }
     // 회원 삭제
+    // DELETE /members/{mid}
     deleteMember(mid, request) {
         return __awaiter(this, void 0, void 0, function* () {
+            // 회원 삭제 처리
             return this.service.delete(mid);
         });
     }
     // 현재 로그인한 사용자 정보 조회
+    // GET /members/me/profile
     getMyProfile(request) {
         return __awaiter(this, void 0, void 0, function* () {
+            // 인증 확인
             if (!request.user) {
-                throw new Error('인증되지 않은 사용자입니다');
+                throw new Error("인증되지 않은 사용자입니다");
             }
+            // 토큰에서 추출한 사용자 ID로 정보 조회
             const userId = request.user.MID;
             const member = yield this.service.getById(userId);
+            // 민감한 정보 제외하고 필요한 정보만 반환
             return {
                 MID: member.MID,
                 MEMBERNAME: member.MEMBERNAME,
-                MROLE: member.MROLE
+                MROLE: member.MROLE,
             };
         });
     }
 };
 exports.MemberController = MemberController;
 __decorate([
-    (0, tsoa_1.Get)(),
-    (0, tsoa_1.Security)('jwt'),
+    (0, tsoa_1.Get)()
+    // JWT 인증 필요
+    ,
+    (0, tsoa_1.Security)("jwt"),
     __param(0, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "getMembers", null);
 __decorate([
-    (0, tsoa_1.Get)('{mid}'),
-    (0, tsoa_1.Security)('jwt'),
+    (0, tsoa_1.Get)("{mid}")
+    // JWT 인증 필요
+    ,
+    (0, tsoa_1.Security)("jwt"),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
@@ -172,9 +197,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "getMember", null);
 __decorate([
-    (0, tsoa_1.Post)('register'),
-    (0, tsoa_1.Response)(201, '회원가입 성공'),
-    (0, tsoa_1.Response)(409, '이미 존재하는 사용자'),
+    (0, tsoa_1.Post)("register"),
+    (0, tsoa_1.Response)(201, "회원가입 성공"),
+    (0, tsoa_1.Response)(409, "이미 존재하는 사용자"),
     (0, tsoa_1.Example)("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
@@ -182,9 +207,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "registerMember", null);
 __decorate([
-    (0, tsoa_1.Post)('login'),
-    (0, tsoa_1.Response)(200, '로그인 성공'),
-    (0, tsoa_1.Response)(401, '인증 실패'),
+    (0, tsoa_1.Post)("login"),
+    (0, tsoa_1.Response)(200, "로그인 성공"),
+    (0, tsoa_1.Response)(401, "인증 실패"),
     (0, tsoa_1.Example)("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."),
     __param(0, (0, tsoa_1.Body)()),
     __metadata("design:type", Function),
@@ -192,8 +217,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "loginMember", null);
 __decorate([
-    (0, tsoa_1.Put)('{mid}'),
-    (0, tsoa_1.Security)('jwt'),
+    (0, tsoa_1.Put)("{mid}")
+    // JWT 인증 필요
+    ,
+    (0, tsoa_1.Security)("jwt"),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Body)()),
     __param(2, (0, tsoa_1.Request)()),
@@ -202,9 +229,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "updateMember", null);
 __decorate([
-    (0, tsoa_1.Delete)('{mid}'),
-    (0, tsoa_1.Security)('jwt'),
-    (0, tsoa_1.Response)('204', 'No Content'),
+    (0, tsoa_1.Delete)("{mid}")
+    // JWT 인증 필요
+    ,
+    (0, tsoa_1.Security)("jwt"),
+    (0, tsoa_1.Response)("204", "No Content"),
     __param(0, (0, tsoa_1.Path)()),
     __param(1, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
@@ -212,16 +241,18 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "deleteMember", null);
 __decorate([
-    (0, tsoa_1.Get)('me/profile'),
-    (0, tsoa_1.Security)('jwt'),
+    (0, tsoa_1.Get)("me/profile")
+    // JWT 인증 필요
+    ,
+    (0, tsoa_1.Security)("jwt"),
     __param(0, (0, tsoa_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "getMyProfile", null);
 exports.MemberController = MemberController = __decorate([
-    (0, tsoa_1.Route)('members')
+    (0, tsoa_1.Route)("members")
     // Swagger 문서에서 'Member' 태그로 이 컨트롤러의 API들을 묶기
     ,
-    (0, tsoa_1.Tags)('Member')
+    (0, tsoa_1.Tags)("Member")
 ], MemberController);
