@@ -116,6 +116,6 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ChatController.prototype, "getChatMessages", null);
 exports.ChatController = ChatController = __decorate([
-    (0, tsoa_1.Route)("chat"),
+    (0, tsoa_1.Route)("api/chat"),
     (0, tsoa_1.Tags)("Chat")
 ], ChatController);

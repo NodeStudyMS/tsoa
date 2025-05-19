@@ -6,16 +6,30 @@ import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes/routes";
 import { initDatabase } from "./db/sequelize";
 import { ChatService } from "./services/ChatService";
-import path from "path"; // path 모듈 추가
+import path from "path";
 
 export const app = express();
 
-// 미들웨어 설정
-app.use(cors()); // CORS 설정 단순화 (같은 서버에서 서빙하므로)
+// CORS 설정 - 프론트엔드(80번 포트)에서의 요청 허용
+// 다양한 환경에서 접근 가능하도록 설정
+app.use(cors({
+  origin: [
+    "http://localhost:80", 
+    "http://localhost", 
+    "http://127.0.0.1:80", 
+    "http://127.0.0.1",
+    "http://172.30.1.38:80",
+    "http://172.30.1.38"
+    // 실제 프로덕션 환경의 도메인도 추가 가능
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// 정적 파일 제공 - 절대 경로 사용
+// 정적 파일 제공 - API 문서용
 app.use(express.static(path.join(__dirname, "../public")));
 
 // Swagger UI 설정
@@ -43,32 +57,17 @@ app.use(
     const status = err.status || 500;
     const message = err.message || "Something went wrong";
 
+    console.error(`API 오류 (${status}): ${message}`);
+    if (err.stack) {
+      console.error(err.stack);
+    }
+
     res.status(status).json({
       message,
       status,
     });
   }
 );
-
-// API 경로 목록
-const API_PATHS = ["/members", "/chat", "/docs"];
-// React SPA 라우팅을 위한 설정 - 수정된 부분
-app.use((req, res, next) => {
-  // API 경로인지 확인
-  const isApiPath = API_PATHS.some((apiPath) => req.path.startsWith(apiPath));
-
-  // API 경로면 다음 핸들러로 넘김
-  if (isApiPath) {
-    return next();
-  }
-
-  // POST, PUT, DELETE 등의 API 요청이면 next()로 넘김
-  if (req.method !== "GET") {
-    return next();
-  }
-  // API 경로가 아니고 GET 요청이면 React 앱의 index.html 파일 제공 - 절대 경로 사용
-  res.sendFile(path.join(__dirname, "../public/index.html"));
-});
 
 // 서버 초기화 함수 (server.ts에서 호출)
 export async function initServer() {

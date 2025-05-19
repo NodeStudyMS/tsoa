@@ -256,7 +256,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MemberController.prototype, "getMyProfile", null);
 exports.MemberController = MemberController = __decorate([
-    (0, tsoa_1.Route)("members")
+    (0, tsoa_1.Route)("api/members")
     // Swagger 문서에서 'Member' 태그로 이 컨트롤러의 API들을 묶기
     ,
     (0, tsoa_1.Tags)("Member")

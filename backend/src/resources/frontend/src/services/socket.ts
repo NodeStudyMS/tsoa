@@ -2,17 +2,20 @@
 import { io } from "socket.io-client";
 import type { Socket } from "socket.io-client/build/esm/socket";
 import { ChatMessage, UserJoinedEvent, UserLeftEvent } from "../types";
+import { SOCKET_URL } from "../config";
 
 class SocketService {
   private socket: Socket | null = null;
-  private readonly url = "";
-
+  // config.ts에서 가져온 소켓 URL 사용
+  private readonly url = SOCKET_URL;
+  
   // 소켓 연결 부분
   connect(token: string) {
     if (this.socket) {
       this.socket.disconnect();
     }
 
+    console.log("소켓 서버 URL:", this.url); // 디버깅용 로그
     this.socket = io(this.url, {
       auth: { token },
       transports: ["polling", "websocket"],
@@ -117,5 +120,4 @@ class SocketService {
     return this.socket?.connected || false;
   }
 }
-
 export const socketService = new SocketService();

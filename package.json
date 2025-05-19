@@ -5,10 +5,16 @@
   "main": "backend/src/server.ts",
   "scripts": {
     "build": "cd backend && tsoa spec-and-routes && cd .. && tsc",
-    "build:all": "npm run build && cd backend/src/resources/frontend && npm run build && cd ../../../../ && node scripts/copy-frontend-to-dist.js",
-    "copy-frontend": "node scripts/copy-frontend-to-dist.js",
+    "install:frontend": "cd backend/src/resources/frontend && npm install",
+    "build:frontend": "cd backend/src/resources/frontend && npm install && npm run build",
+    "copy:frontend-to-iis": "node scripts/copy-frontend-to-iis.js",
+    "deploy:frontend": "npm run build:frontend && npm run copy:frontend-to-iis",
+    "build:all": "npm run build && npm run build:frontend",
+    "deploy:all": "npm run build:all && npm run copy:frontend-to-iis",
     "start": "node dist/backend/src/server.js",
-    "dev": "concurrently \"nodemon\" \"cd backend && nodemon -x tsoa spec-and-routes\"",
+    "dev:backend": "concurrently \"nodemon\" \"cd backend && nodemon -x tsoa spec-and-routes\"",
+    "dev:frontend": "cd backend/src/resources/frontend && npm start",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "test": "jest"
   },
   "dependencies": {
@@ -23,7 +29,6 @@
     "sequelize": "^6.37.7",
     "sequelize-cli": "^6.6.3",
     "socket.io": "^4.8.1",
-    "socket.io-client": "^4.8.1",
     "swagger-ui-express": "^5.0.0",
     "tsoa": "^5.1.1",
     "uuid": "^9.0.1"
@@ -36,8 +41,10 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20.10.5",
+    "@types/parse-json": "^4.0.2",
     "@types/socket.io": "^3.0.1",
     "@types/swagger-ui-express": "^4.1.6",
+    "@types/trusted-types": "^2.0.7",
     "@types/uuid": "^9.0.7",
     "concurrently": "^8.2.2",
     "nodemon": "^3.1.10",

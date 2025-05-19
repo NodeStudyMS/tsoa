@@ -55,13 +55,27 @@ const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const routes_1 = require("./routes/routes");
 const sequelize_1 = require("./db/sequelize");
 const ChatService_1 = require("./services/ChatService");
-const path_1 = __importDefault(require("path")); // path 모듈 추가
+const path_1 = __importDefault(require("path"));
 exports.app = (0, express_1.default)();
-// 미들웨어 설정
-exports.app.use((0, cors_1.default)()); // CORS 설정 단순화 (같은 서버에서 서빙하므로)
+// CORS 설정 - 프론트엔드(80번 포트)에서의 요청 허용
+// 다양한 환경에서 접근 가능하도록 설정
+exports.app.use((0, cors_1.default)({
+    origin: [
+        "http://localhost:80",
+        "http://localhost",
+        "http://127.0.0.1:80",
+        "http://127.0.0.1",
+        "http://172.30.1.38:80",
+        "http://172.30.1.38"
+        // 실제 프로덕션 환경의 도메인도 추가 가능
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
+}));
 exports.app.use(body_parser_1.default.json());
 exports.app.use(body_parser_1.default.urlencoded({ extended: true }));
-// 정적 파일 제공 - 절대 경로 사용
+// 정적 파일 제공 - API 문서용
 exports.app.use(express_1.default.static(path_1.default.join(__dirname, "../public")));
 // Swagger UI 설정
 exports.app.use("/docs", swagger_ui_express_1.default.serve, (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -73,27 +87,14 @@ exports.app.use("/docs", swagger_ui_express_1.default.serve, (_req, res) => __aw
 exports.app.use((err, req, res, next) => {
     const status = err.status || 500;
     const message = err.message || "Something went wrong";
+    console.error(`API 오류 (${status}): ${message}`);
+    if (err.stack) {
+        console.error(err.stack);
+    }
     res.status(status).json({
         message,
         status,
     });
-});
-// API 경로 목록
-const API_PATHS = ["/members", "/chat", "/docs"];
-// React SPA 라우팅을 위한 설정 - 수정된 부분
-exports.app.use((req, res, next) => {
-    // API 경로인지 확인
-    const isApiPath = API_PATHS.some((apiPath) => req.path.startsWith(apiPath));
-    // API 경로면 다음 핸들러로 넘김
-    if (isApiPath) {
-        return next();
-    }
-    // POST, PUT, DELETE 등의 API 요청이면 next()로 넘김
-    if (req.method !== "GET") {
-        return next();
-    }
-    // API 경로가 아니고 GET 요청이면 React 앱의 index.html 파일 제공 - 절대 경로 사용
-    res.sendFile(path_1.default.join(__dirname, "../public/index.html"));
 });
 // 서버 초기화 함수 (server.ts에서 호출)
 function initServer() {

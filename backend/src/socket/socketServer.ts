@@ -8,7 +8,6 @@ const chatService = new ChatService();
 const memberService = new MemberService();
 
 // 소켓으로 연결된 사용자 정보를 저장하는 인터페이스
-// 소켓ID, 사용자ID, 사용자이름 정보를 포함
 interface ConnectedUser {
   socketId: string;
   userId: string;
@@ -16,14 +15,22 @@ interface ConnectedUser {
 }
 
 // 실시간으로 연결된 사용자들을 관리하는 배열
-// 누가 접속했는지, 몇 명이 접속 중인지 파악하는데 사용
 const connectedUsers: ConnectedUser[] = [];
 
 export function setupSocketServer(server: Server) {
   // Socket.IO 서버 인스턴스 생성 및 설정
   const io = new SocketIOServer(server, {
     cors: {
-      origin: ["http://localhost:3001", "http://127.0.0.1:3001"], // 프론트엔드 접속 주소 설정
+      // 프론트엔드 서버 주소 설정 (IIS에서 80포트로 실행)
+      origin: [
+        "http://localhost:80", 
+        "http://localhost", 
+        "http://127.0.0.1:80", 
+        "http://127.0.0.1",
+        "http://172.30.1.38:80",
+        "http://172.30.1.38"
+        // 실제 프로덕션 환경의 도메인도 추가 가능
+      ],
       methods: ["GET", "POST"],
       credentials: true, // 쿠키나 인증 정보 전송 허용
       allowedHeaders: ["Authorization", "Content-Type"],

@@ -19,7 +19,7 @@ import { Board, BoardCreationParams, BoardUpdateParams } from "../models/Board";
 import { BoardService } from "../services/BoardSerivce";
 
 // C의 기본경로를 /boards로 설정
-@Route("boards")
+@Route("api/boards")
 // Swagger 문서에서 Board 태그로 그룹화
 @Tags("Board")
 export class BoardController extends Controller {
