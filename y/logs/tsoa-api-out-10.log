@@ -190,3 +190,252 @@ Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt
 Server is running on http://0.0.0.0:3000
 Swagger UI available at http://0.0.0.0:3000/docs
 Socket.io 서버가 실행 중입니다
+소켓 서버 설정 완료
+Executing (default): SELECT 1+1 AS result
+데이터베이스 연결 성공!
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'board' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `board` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'member' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `member` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_messages' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_messages` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_rooms' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_rooms` FROM `asgin`
+모델 동기화 완료!
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'general';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'tech';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'random';
+서버 초기화 완료
+Server is running on http://0.0.0.0:3000
+Swagger UI available at http://0.0.0.0:3000/docs
+Socket.io 서버가 실행 중입니다
+소켓 서버 설정 완료
+Executing (default): SELECT 1+1 AS result
+데이터베이스 연결 성공!
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'board' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `board` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'member' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `member` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_messages' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_messages` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_rooms' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_rooms` FROM `asgin`
+모델 동기화 완료!
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'general';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'tech';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'random';
+서버 초기화 완료
+Server is running on http://0.0.0.0:3000
+Swagger UI available at http://0.0.0.0:3000/docs
+Socket.io 서버가 실행 중입니다
+소켓 서버 설정 완료
+Executing (default): SELECT 1+1 AS result
+데이터베이스 연결 성공!
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'board' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `board` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'member' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `member` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_messages' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_messages` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_rooms' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_rooms` FROM `asgin`
+모델 동기화 완료!
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'general';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'tech';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'random';
+서버 초기화 완료
+Server is running on http://0.0.0.0:3000
+Swagger UI available at http://0.0.0.0:3000/docs
+Socket.io 서버가 실행 중입니다
+Executing (default): SELECT `MID`, `MEMBERNAME` FROM `member` AS `Member` WHERE `Member`.`MID` = '1234';
+GET /members/me/profile 로그 :  Member {
+  dataValues: { MID: '1234', MEMBERNAME: '1234' },
+  _previousDataValues: { MID: '1234', MEMBERNAME: '1234' },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [ 'MID', 'MEMBERNAME' ]
+  },
+  isNewRecord: false
+}
+Executing (default): SELECT `MID`, `MEMBERNAME` FROM `member` AS `Member` WHERE `Member`.`MID` = '1234';
+GET /members/me/profile 로그 :  Member {
+  dataValues: { MID: '1234', MEMBERNAME: '1234' },
+  _previousDataValues: { MID: '1234', MEMBERNAME: '1234' },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [ 'MID', 'MEMBERNAME' ]
+  },
+  isNewRecord: false
+}
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom`;
+Executing (default): SELECT `ChatMessage`.`id`, `ChatMessage`.`content`, `ChatMessage`.`senderId`, `ChatMessage`.`roomId`, `ChatMessage`.`createdAt`, `ChatMessage`.`updatedAt`, `sender`.`MID` AS `sender.MID`, `sender`.`MEMBERNAME` AS `sender.MEMBERNAME` FROM `chat_messages` AS `ChatMessage` LEFT OUTER JOIN `member` AS `sender` ON `ChatMessage`.`senderId` = `sender`.`MID` WHERE `ChatMessage`.`roomId` = 'general' ORDER BY `ChatMessage`.`createdAt` DESC LIMIT 50;
+Executing (default): SELECT `MID`, `MPW`, `MEMBERNAME`, `MROLE`, `createdAt`, `updatedAt` FROM `member` AS `Member` WHERE `Member`.`MID` = '1234';
+Executing (default): SELECT `MID`, `MEMBERNAME` FROM `member` AS `Member` WHERE `Member`.`MID` = '1234';
+POST /members/login 로그 :  Member {
+  dataValues: { MID: '1234', MEMBERNAME: '1234' },
+  _previousDataValues: { MID: '1234', MEMBERNAME: '1234' },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [ 'MID', 'MEMBERNAME' ]
+  },
+  isNewRecord: false
+}
+Executing (default): SELECT `MID`, `MEMBERNAME` FROM `member` AS `Member` WHERE `Member`.`MID` = '1234';
+GET /members/me/profile 로그 :  Member {
+  dataValues: { MID: '1234', MEMBERNAME: '1234' },
+  _previousDataValues: { MID: '1234', MEMBERNAME: '1234' },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [ 'MID', 'MEMBERNAME' ]
+  },
+  isNewRecord: false
+}
+Executing (default): SELECT `ChatMessage`.`id`, `ChatMessage`.`content`, `ChatMessage`.`senderId`, `ChatMessage`.`roomId`, `ChatMessage`.`createdAt`, `ChatMessage`.`updatedAt`, `sender`.`MID` AS `sender.MID`, `sender`.`MEMBERNAME` AS `sender.MEMBERNAME` FROM `chat_messages` AS `ChatMessage` LEFT OUTER JOIN `member` AS `sender` ON `ChatMessage`.`senderId` = `sender`.`MID` WHERE `ChatMessage`.`roomId` = 'general' ORDER BY `ChatMessage`.`createdAt` DESC LIMIT 50;
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom`;
+Executing (default): SELECT `MID`, `MEMBERNAME` FROM `member` AS `Member` WHERE `Member`.`MID` = '1234';
+GET /members/me/profile 로그 :  Member {
+  dataValues: { MID: '1234', MEMBERNAME: '1234' },
+  _previousDataValues: { MID: '1234', MEMBERNAME: '1234' },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [ 'MID', 'MEMBERNAME' ]
+  },
+  isNewRecord: false
+}
+Executing (default): SELECT `MID`, `MEMBERNAME` FROM `member` AS `Member` WHERE `Member`.`MID` = '1234';
+GET /members/me/profile 로그 :  Member {
+  dataValues: { MID: '1234', MEMBERNAME: '1234' },
+  _previousDataValues: { MID: '1234', MEMBERNAME: '1234' },
+  uniqno: 1,
+  _changed: Set(0) {},
+  _options: {
+    isNewRecord: false,
+    _schema: null,
+    _schemaDelimiter: '',
+    raw: true,
+    attributes: [ 'MID', 'MEMBERNAME' ]
+  },
+  isNewRecord: false
+}
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom`;
+Executing (default): SELECT `ChatMessage`.`id`, `ChatMessage`.`content`, `ChatMessage`.`senderId`, `ChatMessage`.`roomId`, `ChatMessage`.`createdAt`, `ChatMessage`.`updatedAt`, `sender`.`MID` AS `sender.MID`, `sender`.`MEMBERNAME` AS `sender.MEMBERNAME` FROM `chat_messages` AS `ChatMessage` LEFT OUTER JOIN `member` AS `sender` ON `ChatMessage`.`senderId` = `sender`.`MID` WHERE `ChatMessage`.`roomId` = 'general' ORDER BY `ChatMessage`.`createdAt` DESC LIMIT 50;
+소켓 서버 설정 완료
+Executing (default): SELECT 1+1 AS result
+데이터베이스 연결 성공!
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'board' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `board` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'member' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `member` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_messages' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_messages` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_rooms' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_rooms` FROM `asgin`
+모델 동기화 완료!
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'general';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'tech';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'random';
+서버 초기화 완료
+Server is running on http://0.0.0.0:3000
+Swagger UI available at http://0.0.0.0:3000/docs
+Socket.io 서버가 실행 중입니다
+소켓 서버 설정 완료
+Executing (default): SELECT 1+1 AS result
+데이터베이스 연결 성공!
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'board' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `board` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'member' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `member` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_messages' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_messages` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_rooms' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_rooms` FROM `asgin`
+모델 동기화 완료!
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'general';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'tech';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'random';
+서버 초기화 완료
+Server is running on http://0.0.0.0:3000
+Swagger UI available at http://0.0.0.0:3000/docs
+Socket.io 서버가 실행 중입니다
+소켓 서버 설정 완료
+Executing (default): SELECT 1+1 AS result
+데이터베이스 연결 성공!
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'board' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `board` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'member' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `member` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_messages' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_messages` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_rooms' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_rooms` FROM `asgin`
+모델 동기화 완료!
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'general';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'tech';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'random';
+서버 초기화 완료
+Server is running on http://0.0.0.0:3000
+Swagger UI available at http://0.0.0.0:3000/docs
+Socket.io 서버가 실행 중입니다
+소켓 서버 설정 완료
+Executing (default): SELECT 1+1 AS result
+데이터베이스 연결 성공!
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'board' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `board` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'member' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `member` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_messages' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_messages` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_rooms' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_rooms` FROM `asgin`
+모델 동기화 완료!
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'general';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'tech';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'random';
+서버 초기화 완료
+Server is running on http://0.0.0.0:3000
+Swagger UI available at http://0.0.0.0:3000/docs
+Socket.io 서버가 실행 중입니다
+소켓 서버 설정 완료
+Executing (default): SELECT 1+1 AS result
+데이터베이스 연결 성공!
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'board' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `board` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'member' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `member` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_messages' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_messages` FROM `asgin`
+Executing (default): SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_NAME = 'chat_rooms' AND TABLE_SCHEMA = 'asgin'
+Executing (default): SHOW INDEX FROM `chat_rooms` FROM `asgin`
+모델 동기화 완료!
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'general';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'tech';
+Executing (default): SELECT `id`, `name`, `description`, `createdAt`, `updatedAt` FROM `chat_rooms` AS `ChatRoom` WHERE `ChatRoom`.`id` = 'random';
+서버 초기화 완료
+Server is running on http://0.0.0.0:3000
+Swagger UI available at http://0.0.0.0:3000/docs
+Socket.io 서버가 실행 중입니다

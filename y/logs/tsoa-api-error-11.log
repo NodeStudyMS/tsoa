@@ -1,0 +1,30 @@
+API 오류 (500): ID 또는 비밀번호가 올바르지 않습니다
+Error: ID 또는 비밀번호가 올바르지 않습니다
+    at MemberService.<anonymous> (C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\services\MemberService.js:71:23)
+    at Generator.next (<anonymous>)
+    at fulfilled (C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\services\MemberService.js:6:58)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+API 오류 (401): 인증 토큰이 없습니다
+Error: 인증 토큰이 없습니다
+    at C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\authentication.js:51:24
+    at new Promise (<anonymous>)
+    at expressAuthentication (C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\authentication.js:48:16)
+    at C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\routes\routes.js:430:97
+    at Generator.next (<anonymous>)
+    at C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\routes\routes.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\routes\routes.js:4:12)
+    at runAuthenticationMiddleware (C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\routes\routes.js:406:20)
+    at Layer.handle [as handle_request] (C:\Users\msk03\Desktop\jobAnything\workspace\asign\node_modules\express\lib\router\layer.js:95:5)
+API 오류 (401): 인증 토큰이 없습니다
+Error: 인증 토큰이 없습니다
+    at C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\authentication.js:51:24
+    at new Promise (<anonymous>)
+    at expressAuthentication (C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\authentication.js:48:16)
+    at C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\routes\routes.js:430:97
+    at Generator.next (<anonymous>)
+    at C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\routes\routes.js:8:71
+    at new Promise (<anonymous>)
+    at __awaiter (C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\routes\routes.js:4:12)
+    at runAuthenticationMiddleware (C:\Users\msk03\Desktop\jobAnything\workspace\asign\dist\backend\src\routes\routes.js:406:20)
+    at Layer.handle [as handle_request] (C:\Users\msk03\Desktop\jobAnything\workspace\asign\node_modules\express\lib\router\layer.js:95:5)

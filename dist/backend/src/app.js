@@ -60,15 +60,7 @@ exports.app = (0, express_1.default)();
 // CORS 설정 - 프론트엔드(80번 포트)에서의 요청 허용
 // 다양한 환경에서 접근 가능하도록 설정
 exports.app.use((0, cors_1.default)({
-    origin: [
-        "http://localhost:80",
-        "http://localhost",
-        "http://127.0.0.1:80",
-        "http://127.0.0.1",
-        "http://172.30.1.38:80",
-        "http://172.30.1.38"
-        // 실제 프로덕션 환경의 도메인도 추가 가능
-    ],
+    origin: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true

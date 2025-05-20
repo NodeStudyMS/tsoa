@@ -1,4 +1,3 @@
-// frontend/src/services/socketService.ts
 import { io } from "socket.io-client";
 import type { Socket } from "socket.io-client/build/esm/socket";
 import { ChatMessage, UserJoinedEvent, UserLeftEvent } from "../types";

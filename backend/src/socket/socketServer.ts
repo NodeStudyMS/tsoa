@@ -22,15 +22,7 @@ export function setupSocketServer(server: Server) {
   const io = new SocketIOServer(server, {
     cors: {
       // 프론트엔드 서버 주소 설정 (IIS에서 80포트로 실행)
-      origin: [
-        "http://localhost:80", 
-        "http://localhost", 
-        "http://127.0.0.1:80", 
-        "http://127.0.0.1",
-        "http://172.30.1.38:80",
-        "http://172.30.1.38"
-        // 실제 프로덕션 환경의 도메인도 추가 가능
-      ],
+      origin: true,
       methods: ["GET", "POST"],
       credentials: true, // 쿠키나 인증 정보 전송 허용
       allowedHeaders: ["Authorization", "Content-Type"],
