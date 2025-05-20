@@ -4,8 +4,7 @@
 export const API_BASE_URL =
   process.env.REACT_APP_API_URL || "/api";
 
-// Socket.IO URL은 더 이상 여기서 설정하지 않음 (socketService.ts에서 직접 계산)
-export const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || "";
+export const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || "/api";
 
 // 개발 환경에서는 로그 출력
 if (process.env.NODE_ENV !== "production") {
